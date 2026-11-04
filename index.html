@@ -263,19 +263,47 @@
   const HOLIDAYS = ['Shabbat', 'Rosh Hashanah', 'Yom Kippur Break-Fast', 'Sukkot', 'Hanukkah',
                     'Purim', 'Passover', 'Shavuot', 'Everyday'];
 
+  const SEED_RECIPES = [
+    {
+      id: 'seed-skillet-matzah-brei', favorite: false,
+      title: 'Skillet Matzah Brei', category: 'jewish',
+      holiday: 'Passover', kosher: 'Pareve', passover: true,
+      source: '“Passover Lite” cookbook', time: '', servings: '4',
+      ingredients: 'Cooking spray\n2 tsp. oil\n4 matzahs\n4 egg whites\n1/2 tsp. onion powder, or to taste\n1/4 tsp. salt\n1/8 tsp. black pepper',
+      steps: 'Coat a large nonstick skillet or griddle with cooking spray and add 1/2 tsp. of the oil. Heat the skillet over medium-high heat until very hot.\nMeanwhile, moisten the matzah with cold water and crumble into a bowl. Add the egg whites and seasonings.\nSpoon half the mixture into the hot skillet or griddle as one large pancake and brown.\nWith a wide spatula, lift the matzah and add another 1/2 tsp. of oil. Turn to brown the other side.\nRepeat with remaining mixture and oil.',
+      notes: 'Per serving: Calories 157; Saturated fat 0 g; Total fat 2 g; Carbohydrates 27 g; Cholesterol 0 mg; Sodium 202 mg.\n\nFrom “Passover Lite” (printed from Jewish.com).',
+      photo: '',
+    },
+  ];
+
   const $ = s => document.querySelector(s);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const lines = s => String(s || '').split('\n').map(l => l.trim()).filter(Boolean);
   const catOf = id => CATEGORIES.find(c => c.id === id) || CATEGORIES.at(-1);
 
   // ---------- storage ----------
+  const SEEDED_KEY = 'lhcb.seeded.v1';
   let recipes = load();
   function load() {
+    let list = [];
     try {
       const raw = localStorage.getItem(STORE_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) list = JSON.parse(raw);
     } catch (e) { console.warn(e); }
-    return [sampleRecipe()];
+    // Remove the old placeholder sample recipe.
+    list = list.filter(r => !String(r.title || '').startsWith('Classic Challah (sample'));
+    // Add built-in recipes once (so deleting one later won't bring it back).
+    let seeded = [];
+    try { seeded = JSON.parse(localStorage.getItem(SEEDED_KEY) || '[]'); } catch {}
+    for (const s of SEED_RECIPES) {
+      if (!seeded.includes(s.id) && !list.some(r => r.id === s.id)) list.push({ ...s, created: Date.now() });
+      if (!seeded.includes(s.id)) seeded.push(s.id);
+    }
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify(list));
+      localStorage.setItem(SEEDED_KEY, JSON.stringify(seeded));
+    } catch (e) { console.warn(e); }
+    return list;
   }
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(recipes)); return true; }
@@ -283,18 +311,6 @@
       alert('Could not save — your browser storage may be full (photos take up the most space). Try a smaller photo, and use “Back up” to keep a copy.');
       return false;
     }
-  }
-  function sampleRecipe() {
-    return {
-      id: crypto.randomUUID(), created: Date.now(), favorite: true,
-      title: 'Classic Challah (sample — edit or delete me)', category: 'jewish',
-      holiday: 'Shabbat', kosher: 'Pareve', passover: false,
-      source: '', time: '3 hr (mostly rising)', servings: '2 loaves',
-      ingredients: '1 tbsp active dry yeast\n1 ½ cups warm water\n½ cup honey\n⅓ cup vegetable oil\n3 eggs + 1 yolk for wash\n1 tbsp salt\n6–7 cups bread flour\nSesame or poppy seeds (optional)',
-      steps: 'Dissolve yeast and 1 tbsp honey in warm water; let foam 10 minutes.\nWhisk in remaining honey, oil, 3 eggs and salt.\nAdd flour a cup at a time until a soft dough forms; knead 10 minutes.\nCover and let rise 1 ½ hours, until doubled.\nDivide in half, braid each into a loaf, and let rise 45 minutes.\nBrush with egg yolk, sprinkle seeds, and bake at 350°F for 30–35 minutes until golden.',
-      notes: 'This is a sample recipe to show how things look. Click “Edit” to change it or “Delete” to remove it.',
-      photo: '',
-    };
   }
 
   // ---------- state ----------
