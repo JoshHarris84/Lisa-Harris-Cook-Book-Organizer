@@ -296,7 +296,7 @@
         'The cookies keep well in an airtight container at room temperature for about a week.',
       ].join('\n'),
       notes: 'Note: 7/8 cup = 3/4 cup plus 2 tablespoons.',
-      photo: '',
+      photo: 'photos/macaroons.jpg',
     },
     {
       id: 'seed-gefilte-fish-loaves', favorite: false,
@@ -351,7 +351,7 @@
         'Pour the dressing over the salad and toss well. Serve!',
       ].join('\n'),
       notes: 'This gorgeous salad is perfect for all of your holiday meals!',
-      photo: '',
+      photo: 'photos/kale.jpg',
     },
     {
       id: 'seed-candied-pecans', favorite: false,
@@ -375,7 +375,7 @@
         'Remove from the oven and let the pecans cool on the baking sheet. When completely cool, store in an airtight container for up to 1 month.',
       ].join('\n'),
       notes: 'A great topping for salads, main dishes, and desserts — and for the Kale and Brussels Sprouts Salad. Also good by the handful and a great holiday gift!',
-      photo: '',
+      photo: 'photos/pecans.jpg',
     },
     {
       id: 'seed-honey-rosemary-sweet-potatoes', favorite: false,
@@ -395,7 +395,7 @@
         'Bake in the preheated oven until tender, about 45 minutes. Turn oven heat up to 450°F (230°C) and bake until browned, another 15 minutes.',
       ].join('\n'),
       notes: '“Baked until chewy on the outside and soft on the inside, these are a perfect balance of salty and sweet. The rosemary makes them addictive.”\n\nPrinted from Allrecipes.com, 11/24/2015.',
-      photo: '',
+      photo: 'photos/sweetpotato.jpg',
     },
     {
       id: 'seed-leftover-turkey-pho', favorite: false,
@@ -430,7 +430,7 @@
         'For the soup: Cook the noodles according to the package instructions. Divide the noodles among 6 bowls, then top with the broth and shredded meat. Serve with the bean sprouts, Thai basil, jalapeños, red onion, hoisin sauce, sriracha and a lime wedge on the side so guests can top their pho as they like.',
       ].join('\n'),
       notes: 'Reinvent your Thanksgiving turkey into a bowl of intensely flavorful Vietnamese pho. Store-bought chicken broth is fortified with turkey bones, charred vegetables and toasted spices for a rich broth that goes from stovetop to table in less than two hours.',
-      photo: '',
+      photo: 'photos/pho.jpg',
     },
     {
       id: 'seed-hot-pot-sauces', favorite: false,
@@ -496,7 +496,7 @@
         '',
         'Nutrition (per serving): 195 kcal; Carbs 13 g; Protein 5 g; Fat 18 g; Saturated fat 4 g; Sodium 575 mg; Fiber 2 g; Sugar 3 g.',
       ].join('\n'),
-      photo: '',
+      photo: 'photos/hotpot.jpg',
     },
   ];
 
@@ -518,6 +518,16 @@
     list = list.filter(r => !String(r.title || '').startsWith('Classic Challah (sample'));
     // Hot Pot Sauces moved from Other to the new Sauces tab.
     list.forEach(r => { if (r.id === 'seed-hot-pot-sauces' && r.category === 'other') r.category = 'sauces'; });
+    // Give built-in recipes their printout photos once (if they don't already have one).
+    let photoed = false;
+    try { photoed = localStorage.getItem('lhcb.seedphotos.v1') === '1'; } catch {}
+    if (!photoed) {
+      for (const s of SEED_RECIPES) {
+        const r = list.find(r => r.id === s.id);
+        if (r && !r.photo && s.photo) r.photo = s.photo;
+      }
+      try { localStorage.setItem('lhcb.seedphotos.v1', '1'); } catch {}
+    }
     // Add built-in recipes once (so deleting one later won't bring it back).
     let seeded = [];
     try { seeded = JSON.parse(localStorage.getItem(SEEDED_KEY) || '[]'); } catch {}
