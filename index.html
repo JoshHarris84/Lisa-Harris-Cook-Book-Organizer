@@ -47,6 +47,10 @@
   .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .brand h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); }
   .brand p { margin: 2px 0 0; color: var(--muted); }
+  .brand { display: flex; align-items: center; gap: 16px; }
+  .avatar { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; object-position: center 40%; flex: none;
+            border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--accent), 0 4px 12px rgba(0,0,0,.12); }
+  @media (max-width: 520px) { .avatar { width: 64px; height: 64px; } }
   .actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
   .btn {
@@ -155,8 +159,11 @@
 <header class="wrap">
   <div class="top">
     <div class="brand">
-      <h1>Lisa Harris Cook Book</h1>
-      <p>Every family recipe, in one place.</p>
+      <img class="avatar" src="profile.jpg" alt="Lisa Harris" width="84" height="84">
+      <div>
+        <h1>Lisa Harris Cook Book</h1>
+        <p>Every family recipe, in one place.</p>
+      </div>
     </div>
     <div class="actions">
       <button class="btn primary" id="addBtn">+ Add recipe</button>
