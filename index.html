@@ -160,9 +160,6 @@
     </div>
     <div class="actions">
       <button class="btn primary" id="addBtn">+ Add recipe</button>
-      <button class="btn" id="exportBtn" title="Download a backup file of all recipes">Back up</button>
-      <button class="btn" id="importBtn" title="Restore recipes from a backup file">Restore</button>
-      <input type="file" id="importFile" accept="application/json,.json" hidden>
     </div>
   </div>
 </header>
@@ -252,12 +249,8 @@
   const STORE_KEY = 'lhcb.recipes.v1';
   const CATEGORIES = [
     { id: 'jewish',    label: 'Jewish',     icon: '✡' },
-    { id: 'breakfast', label: 'Breakfast',  icon: '🍳' },
-    { id: 'soups',     label: 'Soups & Salads', icon: '🥣' },
-    { id: 'mains',     label: 'Main Dishes', icon: '🍲' },
-    { id: 'sides',     label: 'Sides',      icon: '🥕' },
-    { id: 'baking',    label: 'Breads & Baking', icon: '🍞' },
-    { id: 'desserts',  label: 'Desserts',   icon: '🍰' },
+    { id: 'thanksgiving', label: 'Thanksgiving', icon: '🦃' },
+    { id: 'sauces',    label: 'Sauces',     icon: '🥫' },
     { id: 'other',     label: 'Other',      icon: '📝' },
   ];
   const HOLIDAYS = ['Shabbat', 'Rosh Hashanah', 'Yom Kippur Break-Fast', 'Sukkot', 'Hanukkah',
@@ -272,6 +265,230 @@
       ingredients: 'Cooking spray\n2 tsp. oil\n4 matzahs\n4 egg whites\n1/2 tsp. onion powder, or to taste\n1/4 tsp. salt\n1/8 tsp. black pepper',
       steps: 'Coat a large nonstick skillet or griddle with cooking spray and add 1/2 tsp. of the oil. Heat the skillet over medium-high heat until very hot.\nMeanwhile, moisten the matzah with cold water and crumble into a bowl. Add the egg whites and seasonings.\nSpoon half the mixture into the hot skillet or griddle as one large pancake and brown.\nWith a wide spatula, lift the matzah and add another 1/2 tsp. of oil. Turn to brown the other side.\nRepeat with remaining mixture and oil.',
       notes: 'Per serving: Calories 157; Saturated fat 0 g; Total fat 2 g; Carbohydrates 27 g; Cholesterol 0 mg; Sodium 202 mg.\n\nFrom “Passover Lite” (printed from Jewish.com).',
+      photo: '',
+    },
+    {
+      id: 'seed-coconut-macaroons', favorite: false,
+      title: 'Coconut Macaroons', category: 'jewish',
+      holiday: 'Passover', kosher: 'Dairy', passover: false,
+      source: 'Jennifer Segal, Once Upon a Chef', time: '45 min (20 prep + 25 cook)', servings: '26 macaroons',
+      ingredients: [
+        '5-1/3 cups (one 14-oz bag) sweetened shredded coconut (such as Baker’s Angel Flake)',
+        '7/8 cup sweetened condensed milk (not evaporated milk; see note)',
+        '1 tsp vanilla extract',
+        '2 large egg whites',
+        '1/4 tsp salt',
+        '4 oz semi-sweet chocolate, best quality such as Ghirardelli, chopped (optional)',
+      ].join('\n'),
+      steps: [
+        'Preheat the oven to 325°F. Set two oven racks near the center of the oven. Line two baking sheets with parchment paper.',
+        'In a medium bowl, mix together the shredded coconut, sweetened condensed milk and vanilla extract. Set aside.',
+        'In the bowl of an electric mixer, beat the egg whites and salt until stiff peaks form. Use a large rubber spatula to fold the egg whites into the coconut mixture.',
+        'Using two spoons, form heaping tablespoons of the mixture into mounds on the prepared baking sheets, spacing about 1 inch apart. Bake for 23 to 25 minutes, rotating the pans from top to bottom and front to back, until the tops and edges are golden. Let cool on the pans for a few minutes, then transfer to a wire rack to cool completely.',
+        'If dipping the macaroons in chocolate, melt the chocolate in a microwave-safe bowl at medium power, stopping and stirring at 30-second intervals, until just smooth and creamy. (Alternatively, melt the chocolate in a double boiler over simmering water.) Dip the bottoms of the macaroons in the chocolate, letting any excess drip back into the bowl, and return to the lined baking sheets. Refrigerate for about 10 minutes to allow the chocolate to set.',
+        'The cookies keep well in an airtight container at room temperature for about a week.',
+      ].join('\n'),
+      notes: 'Note: 7/8 cup = 3/4 cup plus 2 tablespoons.',
+      photo: '',
+    },
+    {
+      id: 'seed-gefilte-fish-loaves', favorite: false,
+      title: 'Gefilte Fish (from Frozen Loaves)', category: 'jewish',
+      holiday: 'Passover', kosher: 'Pareve', passover: false,
+      source: 'Handwritten (Lubavitch)', time: 'About 1 hr 45 min', servings: '2 loaves',
+      ingredients: [
+        '2 frozen ready-to-cook gefilte fish loaves',
+        '6 carrots',
+        '1 parsnip',
+        '2 medium onions',
+        '5–6 cups water',
+        'Pepper',
+        'A little salt',
+      ].join('\n'),
+      steps: [
+        'Peel the carrots, parsnip and onions and cut in chunks or slices.',
+        'Put all the vegetables in a 5-quart Dutch oven with 5 cups water (5–6 cups for 2 loaves).',
+        'Unwrap the fish (keep the parchment on) and rinse under cold water. Put in the pot, cover, and cook over medium heat about 10 minutes.',
+        'Take a fork and remove the parchment paper.',
+        'Add pepper and a little salt. Simmer, covered, for 1 1/2 hours.',
+      ].join('\n'),
+      notes: 'Written at the top of the page: “JCC – Boulder, Tues 3:30–5:30” and “$8.75 – matza”.',
+      photo: '',
+    },
+    {
+      id: 'seed-kale-brussels-salad', favorite: false,
+      title: 'Kale and Brussels Sprouts Salad with Butternut Squash, Pomegranate, and Candied Pecans', category: 'thanksgiving',
+      source: 'Two Peas & Their Pod', time: '45 min (15 prep + 30 cook)', servings: '6',
+      ingredients: [
+        'For the salad:',
+        '1 small butternut squash, peeled, seeds removed, and chopped into 1/2-inch cubes',
+        '1 tbsp olive oil',
+        'Pinch of sea salt',
+        '1 small bunch Lacinato kale (Dino or Tuscan kale), finely chopped',
+        '1 lb brussels sprouts, finely chopped',
+        '1 cup pomegranate seeds (from one large pomegranate)',
+        '1/2 cup candied pecans (see Candied Pecans recipe)',
+        '1/3 cup shredded Parmesan cheese',
+        'For the dressing:',
+        '1/4 cup olive oil',
+        '2 tbsp apple cider vinegar',
+        '1 tsp Dijon mustard',
+        '1 small clove garlic, minced',
+        '2 tsp shallot, minced',
+        'Salt and black pepper, to taste',
+      ].join('\n'),
+      steps: [
+        'Preheat the oven to 400°F. Place the butternut squash on a large baking sheet. Drizzle with olive oil and toss. Season with salt and black pepper, to taste. Roast the squash for 25–30 minutes, stirring once, or until the squash is tender. Remove from the oven and set aside.',
+        'Place the kale in a large bowl and sprinkle with sea salt. Massage the leaves for 2–3 minutes, or until they soften and start to wilt. Stir in the chopped brussels sprouts, butternut squash, pomegranate seeds, candied pecans, and Parmesan cheese.',
+        'To make the dressing, whisk together the olive oil, apple cider vinegar, mustard, garlic, and shallot. Season with salt and black pepper, to taste.',
+        'Pour the dressing over the salad and toss well. Serve!',
+      ].join('\n'),
+      notes: 'This gorgeous salad is perfect for all of your holiday meals!',
+      photo: '',
+    },
+    {
+      id: 'seed-candied-pecans', favorite: false,
+      title: 'Candied Pecans', category: 'thanksgiving',
+      source: 'Two Peas & Their Pod (twopeasandtheirpod.com/candied-pecans)', time: '55 min (10 prep + 40–45 cook)', servings: '4 cups',
+      ingredients: [
+        '1/2 cup granulated sugar',
+        '1/2 cup light brown sugar',
+        '1 tbsp ground cinnamon',
+        '1 tsp salt',
+        '16 oz (about 4 cups) unsalted pecan halves',
+        '1 egg white',
+        '1/2 tsp vanilla extract',
+        '1 tsp water',
+      ].join('\n'),
+      steps: [
+        'Preheat oven to 300°F. Line a large baking sheet with a Silpat baking mat or parchment paper and set aside.',
+        'In a medium bowl, add sugars, cinnamon, and salt. Whisk until combined. Set aside.',
+        'In a large bowl, whisk the egg white, vanilla, and water together until frothy. Add the pecans and gently toss until the pecans are well coated. Add the sugar and cinnamon mixture and toss until pecans are covered.',
+        'Spread the pecans out in a single layer on the prepared baking sheet. Bake for about 40–45 minutes, stirring every 15 minutes. The sugar mixture will harden on the pecans.',
+        'Remove from the oven and let the pecans cool on the baking sheet. When completely cool, store in an airtight container for up to 1 month.',
+      ].join('\n'),
+      notes: 'A great topping for salads, main dishes, and desserts — and for the Kale and Brussels Sprouts Salad. Also good by the handful and a great holiday gift!',
+      photo: '',
+    },
+    {
+      id: 'seed-honey-rosemary-sweet-potatoes', favorite: false,
+      title: 'Honey and Rosemary Sweet Potatoes', category: 'thanksgiving',
+      source: 'Allrecipes (recipe by Coco)', time: '1 hr 15 min (15 prep + 1 hr cook)', servings: '',
+      ingredients: [
+        '2 tbsp olive oil',
+        '1/4 cup honey',
+        '2 tbsp chopped fresh rosemary',
+        '1 tsp salt',
+        '1 tsp freshly ground black pepper',
+        '3 large sweet potatoes, peeled and cut in 1-inch cubes',
+      ].join('\n'),
+      steps: [
+        'Preheat oven to 350°F (175°C). Line a baking sheet with foil or parchment paper.',
+        'Mix the olive oil, honey, rosemary, salt, and black pepper together in a large bowl, and stir the sweet potato cubes in the mixture to coat. Remove sweet potato cubes with a slotted spoon, and arrange in a single layer on the prepared baking sheet.',
+        'Bake in the preheated oven until tender, about 45 minutes. Turn oven heat up to 450°F (230°C) and bake until browned, another 15 minutes.',
+      ].join('\n'),
+      notes: '“Baked until chewy on the outside and soft on the inside, these are a perfect balance of salty and sweet. The rosemary makes them addictive.”\n\nPrinted from Allrecipes.com, 11/24/2015.',
+      photo: '',
+    },
+    {
+      id: 'seed-leftover-turkey-pho', favorite: false,
+      title: 'Leftover Roast Turkey Pho', category: 'thanksgiving',
+      source: 'Food Network Kitchen', time: '2 hr (20 min prep + 1 hr 40 min cook)', servings: '6',
+      ingredients: [
+        'Broth:',
+        '1 leftover turkey carcass, including any leg bones and reserved turkey parts (such as the neck, wings, etc.), plus 1 lb leftover turkey meat (about 4 cups), shredded into large bite-size pieces',
+        '3 large yellow onions, halved',
+        'One 6-inch piece fresh ginger root, halved lengthwise',
+        '1 head garlic, halved crosswise',
+        '3 tbsp vegetable oil',
+        'Kosher salt',
+        '4 star anise pods',
+        '3 tbsp whole black peppercorns',
+        '2 cinnamon sticks',
+        '12 cups low-sodium chicken broth',
+        '1/4 to 1/3 cup fish sauce',
+        'Soup:',
+        '1 lb flat rice noodles',
+        '4 cups fresh bean sprouts',
+        '1 large bunch Thai basil',
+        '2 jalapeño peppers, thinly sliced',
+        '1 large red onion, halved and thinly sliced',
+        'Hoisin sauce and/or sriracha, for serving',
+        'Lime wedges, for serving',
+      ].join('\n'),
+      steps: [
+        'For the broth: Position a rack in the upper third of the oven and preheat to 450°F. Toss the turkey bones and parts, onions, ginger and garlic with the vegetable oil in a large bowl. Lightly sprinkle with salt and transfer to a rimmed baking sheet, spreading everything out into a somewhat even layer (it is okay if some items slightly overlap). Roast, turning the bones and vegetables halfway through, until the vegetables are slightly charred, about 30 minutes.',
+        'Meanwhile, add the star anise pods, peppercorns and cinnamon sticks to a large pot. Set over medium heat and toast until very fragrant, shaking the pot occasionally, about 5 minutes. Turn off the heat and add the chicken broth, fish sauce (according to taste), and 8 cups of water.',
+        'Add the roasted turkey bones and vegetables to the pot, scraping any browned bits off the baking sheet and adding them in as well. Bring to a boil over high heat, then reduce the heat to medium-low and gently simmer for 1 hour. Remove from the heat and strain the broth through a fine-mesh sieve into another large pot. (The broth can be made to this point up to 2 days in advance; let cool, then refrigerate in a covered container.) Stir the shredded turkey meat into the hot broth.',
+        'For the soup: Cook the noodles according to the package instructions. Divide the noodles among 6 bowls, then top with the broth and shredded meat. Serve with the bean sprouts, Thai basil, jalapeños, red onion, hoisin sauce, sriracha and a lime wedge on the side so guests can top their pho as they like.',
+      ].join('\n'),
+      notes: 'Reinvent your Thanksgiving turkey into a bowl of intensely flavorful Vietnamese pho. Store-bought chicken broth is fortified with turkey bones, charred vegetables and toasted spices for a rich broth that goes from stovetop to table in less than two hours.',
+      photo: '',
+    },
+    {
+      id: 'seed-hot-pot-sauces', favorite: false,
+      title: 'Hot Pot Sauces (5 Flavors)', category: 'sauces',
+      source: 'ChihYu Smith, I Heart Umami (iheartumami.com/hotpot-sauces)', time: '5 min', servings: 'Each sauce serves 1',
+      ingredients: [
+        'Taiwanese Shacha Hotpot Sauce:',
+        '1 oz garlic clove, crushed or grated',
+        '4 tbsp shacha sauce (use 1.5 tbsp if store-bought)',
+        '1 tbsp soy sauce or coconut aminos',
+        '1 tbsp rice vinegar',
+        '1 tbsp aged balsamic vinegar',
+        '2 bulbs scallion, chopped',
+        '2 tsp toasted sesame oil',
+        '4 tsp chopped Thai red chili peppers (optional)',
+        'Garlic Sesame Sauce:',
+        '4 tbsp Chinese sesame paste or 1.5 tbsp tahini',
+        '2 tbsp cashew butter',
+        '1 tbsp soy sauce or coconut aminos',
+        '2 tbsp rice vinegar',
+        '0.6 oz garlic clove, crushed or grated',
+        '2.8 tsp Takii shiitake mushroom seasoning (optional)',
+        '2–4 tbsp water, or more for a thinner sauce',
+        'Chinese Spicy Chili Garlic Hotpot Sauce:',
+        '4 tbsp chili garlic sauce, or your preferred store-bought version',
+        '2 tbsp aged balsamic vinegar or Chinese black vinegar',
+        '2 tsp toasted sesame oil',
+        '1 tbsp rice vinegar',
+        '2 bulbs scallion, chopped',
+        '2 tsp toasted white sesame seeds',
+        '0.5 tsp Sichuan peppercorn powder (optional)',
+        '2 tbsp vegetarian oyster sauce or store-bought (optional)',
+        'Japanese Sesame Miso Sauce:',
+        '2 tbsp white miso paste or chickpea miso',
+        '1 tbsp toasted sesame oil',
+        '2 tbsp rice vinegar',
+        '4 tbsp Chinese sesame paste or 1.5 tbsp tahini',
+        '1 tbsp soy sauce or coconut aminos',
+        '2 tsp toasted white sesame seeds',
+        '4–5 tbsp water, or more to thin the sauce',
+        'Spicy “Peanut” Sauce:',
+        '4 tbsp unsalted peanut butter or almond butter',
+        '2 tbsp soy sauce or coconut aminos',
+        '1 tbsp toasted sesame oil',
+        '2 tbsp rice vinegar',
+        '4 tbsp water, or more to thin the sauce',
+        '2 tbsp garlic chili sauce (optional), or your preferred store-bought version',
+        '4 tsp chopped cilantro (optional)',
+      ].join('\n'),
+      steps: [
+        'Pick a flavor profile (or more) you like to use for your hotpot.',
+        'Gather all the ingredients and mix them in a dipping sauce bowl — that’s it!',
+      ].join('\n'),
+      notes: [
+        'Hotpot sauces with 5 different flavors for hot pot dipping — from Chinese steamboat to Japanese shabu.',
+        '',
+        '• Each recipe is for 1 person, so you can easily scale up for more.',
+        '• If you can’t find Chinese sesame paste, use a blend of unsweetened peanut butter with tahini.',
+        '• Use store-bought shacha sauce if you want to make the sauce faster.',
+        '• Aged balsamic vinegar tastes naturally sweeter with a thicker consistency. You can also use a small amount of regular balsamic vinegar.',
+        '• Miso paste: if you prefer soy-free, use chickpea miso paste.',
+        '• Store the sauce in an airtight glass container in the fridge and use within one week. If it becomes too thick, add 1–2 tbsp of water.',
+        '',
+        'Nutrition (per serving): 195 kcal; Carbs 13 g; Protein 5 g; Fat 18 g; Saturated fat 4 g; Sodium 575 mg; Fiber 2 g; Sugar 3 g.',
+      ].join('\n'),
       photo: '',
     },
   ];
@@ -292,6 +509,8 @@
     } catch (e) { console.warn(e); }
     // Remove the old placeholder sample recipe.
     list = list.filter(r => !String(r.title || '').startsWith('Classic Challah (sample'));
+    // Hot Pot Sauces moved from Other to the new Sauces tab.
+    list.forEach(r => { if (r.id === 'seed-hot-pot-sauces' && r.category === 'other') r.category = 'sauces'; });
     // Add built-in recipes once (so deleting one later won't bring it back).
     let seeded = [];
     try { seeded = JSON.parse(localStorage.getItem(SEEDED_KEY) || '[]'); } catch {}
@@ -308,7 +527,7 @@
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(recipes)); return true; }
     catch (e) {
-      alert('Could not save — your browser storage may be full (photos take up the most space). Try a smaller photo, and use “Back up” to keep a copy.');
+      alert('Could not save — your browser storage may be full (photos take up the most space). Try a smaller photo.');
       return false;
     }
   }
@@ -551,31 +770,6 @@
     if (!save()) { recipes = before; return; }
     $('#editDlg').close();
     render();
-  });
-
-  // Backup / restore
-  $('#exportBtn').addEventListener('click', () => {
-    const blob = new Blob([JSON.stringify({ app: 'lisa-harris-cookbook', version: 1, exported: new Date().toISOString(), recipes }, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `cookbook-backup-${new Date().toISOString().slice(0, 10)}.json`;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
-  });
-  $('#importBtn').addEventListener('click', () => $('#importFile').click());
-  $('#importFile').addEventListener('change', async e => {
-    const file = e.target.files[0]; if (!file) return;
-    try {
-      const data = JSON.parse(await file.text());
-      const incoming = Array.isArray(data) ? data : data.recipes;
-      if (!Array.isArray(incoming)) throw new Error('bad file');
-      const byId = new Map(recipes.map(r => [r.id, r]));
-      incoming.forEach(r => { if (r && r.title) byId.set(r.id || crypto.randomUUID(), { ...r, id: r.id || crypto.randomUUID() }); });
-      recipes = [...byId.values()];
-      save(); render();
-      alert(`Restored ${incoming.length} recipe(s).`);
-    } catch { alert('That file doesn’t look like a cookbook backup.'); }
-    e.target.value = '';
   });
 
   render();
