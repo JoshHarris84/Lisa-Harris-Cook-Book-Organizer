@@ -475,6 +475,60 @@
         white-space: pre-wrap;
       }
 
+
+      /* Category colors */
+      [data-cat] { --cat: var(--accent); --cat-soft: var(--accent-soft); }
+      [data-cat="jewish"]       { --cat: #1f4e8c; --cat-soft: #e3ecf8; }
+      [data-cat="thanksgiving"] { --cat: #b5651d; --cat-soft: #f8e9da; }
+      [data-cat="chinese"]      { --cat: #b3261e; --cat-soft: #f9e1df; }
+      [data-cat="mains"]        { --cat: #7a3e9d; --cat-soft: #efe4f6; }
+      [data-cat="sides"]        { --cat: #3f7d3a; --cat-soft: #e3f0df; }
+      [data-cat="breads"]       { --cat: #9a6b12; --cat-soft: #f6ecd6; }
+      [data-cat="sauces"]       { --cat: #1f7a7a; --cat-soft: #dcf0ef; }
+      [data-cat="other"]        { --cat: #6b6259; --cat-soft: #ece7e1; }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) [data-cat="jewish"]       { --cat: #8db4ec; --cat-soft: #23324a; }
+        :root:not([data-theme="light"]) [data-cat="thanksgiving"] { --cat: #e0a060; --cat-soft: #3d2a18; }
+        :root:not([data-theme="light"]) [data-cat="chinese"]      { --cat: #f28b84; --cat-soft: #3f1f1c; }
+        :root:not([data-theme="light"]) [data-cat="mains"]        { --cat: #c9a0e6; --cat-soft: #33243f; }
+        :root:not([data-theme="light"]) [data-cat="sides"]        { --cat: #8fcf86; --cat-soft: #20331d; }
+        :root:not([data-theme="light"]) [data-cat="breads"]       { --cat: #e6c26a; --cat-soft: #3a3018; }
+        :root:not([data-theme="light"]) [data-cat="sauces"]       { --cat: #6fd0cc; --cat-soft: #173634; }
+        :root:not([data-theme="light"]) [data-cat="other"]        { --cat: #b8ada2; --cat-soft: #34302b; }
+      }
+      :root[data-theme="dark"] [data-cat="jewish"]       { --cat: #8db4ec; --cat-soft: #23324a; }
+      :root[data-theme="dark"] [data-cat="thanksgiving"] { --cat: #e0a060; --cat-soft: #3d2a18; }
+      :root[data-theme="dark"] [data-cat="chinese"]      { --cat: #f28b84; --cat-soft: #3f1f1c; }
+      :root[data-theme="dark"] [data-cat="mains"]        { --cat: #c9a0e6; --cat-soft: #33243f; }
+      :root[data-theme="dark"] [data-cat="sides"]        { --cat: #8fcf86; --cat-soft: #20331d; }
+      :root[data-theme="dark"] [data-cat="breads"]       { --cat: #e6c26a; --cat-soft: #3a3018; }
+      :root[data-theme="dark"] [data-cat="sauces"]       { --cat: #6fd0cc; --cat-soft: #173634; }
+      :root[data-theme="dark"] [data-cat="other"]        { --cat: #b8ada2; --cat-soft: #34302b; }
+
+      .tab[data-cat].active { color: var(--cat); border-bottom-color: var(--cat); }
+      .tab[data-cat].active .count { background: var(--cat-soft); color: var(--cat); }
+      .card[data-cat] { border-top: 5px solid var(--cat); }
+      .card[data-cat]:hover { border-color: var(--cat); }
+      .card[data-cat] .img { background-color: var(--cat-soft); }
+      .card[data-cat] h3 { color: var(--cat); }
+      .cat-pill {
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 2px 9px;
+        border-radius: 99px;
+        background: var(--cat-soft);
+        color: var(--cat);
+      }
+      dialog[data-cat] .dlg-head { border-bottom: 4px solid var(--cat); }
+      dialog[data-cat] .dlg-head h2 { color: var(--cat); }
+      dialog[data-cat] .view-cols h3 {
+        color: var(--cat);
+        border-bottom: 2px solid var(--cat-soft);
+        padding-bottom: 4px;
+      }
+      dialog[data-cat] .view-cols li::marker { color: var(--cat); font-weight: 700; }
+      dialog[data-cat] .notes { background: var(--cat-soft); border-left: 4px solid var(--cat); }
+
       @media (max-width: 640px) {
         .form-grid,
         .jewish-fields,
@@ -659,6 +713,7 @@
         const CATEGORIES = [
           { id: 'jewish',    label: 'Jewish',     icon: '✡' },
           { id: 'thanksgiving', label: 'Thanksgiving', icon: '🦃' },
+          { id: 'chinese',   label: 'Chinese',    icon: '🥢' },
           { id: 'mains',     label: 'Mains',      icon: '🍲' },
           { id: 'sides',     label: 'Sides & Salads', icon: '🥗' },
           { id: 'breads',    label: 'Breads',     icon: '🍞' },
@@ -839,7 +894,7 @@
           },
           {
             id: 'seed-fresh-spring-rolls', favorite: false,
-            title: 'Fresh Spring Rolls with Peanut Sauce', category: 'other',
+            title: 'Fresh Spring Rolls with Peanut Sauce', category: 'chinese',
             source: 'Cookie and Kate (cookieandkate.com/fresh-spring-rolls-recipe)', time: '45 min (40 prep + 5 cook)', servings: '8 spring rolls',
             ingredients: [
               'Spring Rolls:',
@@ -1170,6 +1225,8 @@
           list = list.filter(r => !String(r.title || '').startsWith('Classic Challah (sample'));
           // Hot Pot Sauces moved from Other to the new Sauces tab.
           list.forEach(r => { if (r.id === 'seed-hot-pot-sauces' && r.category === 'other') r.category = 'sauces'; });
+          // Fresh Spring Rolls moved from Other to the new Chinese tab.
+          list.forEach(r => { if (r.id === 'seed-fresh-spring-rolls' && r.category === 'other') r.category = 'chinese'; });
           // Give built-in recipes their printout photos once (if they don't already have one).
           let photoed = false;
           try { photoed = localStorage.getItem('lhcb.seedphotos.v2') === '1'; } catch {}
@@ -1215,7 +1272,7 @@
           const tabs = [{ id: 'all', label: 'All Recipes', icon: '📖' }, ...CATEGORIES];
           $('#tabs').innerHTML = tabs.map(t => {
             const n = t.id === 'all' ? recipes.length : counts[t.id];
-            return `<button class="tab ${t.id === tab ? 'active' : ''} ${t.id === 'jewish' ? 'jewish' : ''}" data-tab="${t.id}" role="tab" aria-selected="${t.id === tab}">
+            return `<button class="tab ${t.id === tab ? 'active' : ''} ${t.id === 'jewish' ? 'jewish' : ''}" data-tab="${t.id}" ${t.id === 'all' ? '' : `data-cat="${t.id}"`} role="tab" aria-selected="${t.id === tab}">
               ${t.icon} ${esc(t.label)}<span class="count">${n}</span></button>`;
           }).join('');
         }
@@ -1273,16 +1330,15 @@
           }
           grid.innerHTML = list.map(r => {
             const c = catOf(r.category);
-            return `<button class="card" data-id="${r.id}">
+            return `<button class="card" data-id="${r.id}" data-cat="${c.id}">
               <div class="img" style="${r.photo ? `background-image:url('${r.photo}')` : ''}">${r.photo ? '' : c.icon}</div>
               <div class="body">
                 <h3>${r.favorite ? '<span class="fav">★</span> ' : ''}${esc(r.title)}</h3>
                 <div class="meta">
-                  ${tab === 'all' ? `<span>${c.icon} ${esc(c.label)}</span>` : ''}
                   ${r.time ? `<span>⏱ ${esc(r.time)}</span>` : ''}
                   ${r.servings ? `<span>🍽 ${esc(r.servings)}</span>` : ''}
                 </div>
-                <div class="tags">${jewishTags(r)}</div>
+                <div class="tags">${tab === 'all' ? `<span class="cat-pill">${c.icon} ${esc(c.label)}</span>` : ''}${jewishTags(r)}</div>
               </div></button>`;
           }).join('');
         }
@@ -1294,12 +1350,13 @@
           const r = recipes.find(x => x.id === id); if (!r) return;
           viewingId = id;
           const c = catOf(r.category);
+          $('#viewDlg').dataset.cat = c.id;
           $('#vTitle').textContent = r.title;
           const ing = lines(r.ingredients), steps = lines(r.steps);
           $('#vBody').innerHTML = `
             ${r.photo ? `<img class="view-img" src="${r.photo}" alt="">` : ''}
             <div class="meta">
-              <span>${c.icon} ${esc(c.label)}</span>
+              <span class="cat-pill">${c.icon} ${esc(c.label)}</span>
               ${r.time ? `<span>⏱ ${esc(r.time)}</span>` : ''}
               ${r.servings ? `<span>🍽 Serves ${esc(r.servings)}</span>` : ''}
               ${r.source ? `<span>👤 From ${esc(r.source)}</span>` : ''}
