@@ -1,796 +1,1409 @@
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lisa Harris Cook Book</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #faf6ef;
-    --surface: #ffffff;
-    --surface-2: #f3ece0;
-    --text: #2b2420;
-    --muted: #7a6d62;
-    --border: #e6dccd;
-    --accent: #1f4e8c;       /* deep blue */
-    --accent-soft: #e3ecf8;
-    --warm: #b5651d;
-    --danger: #b3261e;
-    --shadow: 0 1px 2px rgba(60,40,20,.06), 0 4px 16px rgba(60,40,20,.06);
-    --radius: 14px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #1b1815; --surface: #24201c; --surface-2: #2e2924; --text: #f1ebe3;
-      --muted: #a89a8c; --border: #3a332c; --accent: #8db4ec; --accent-soft: #23324a;
-      --warm: #e0a060; --danger: #f28b84; --shadow: 0 1px 2px rgba(0,0,0,.3);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #1b1815; --surface: #24201c; --surface-2: #2e2924; --text: #f1ebe3;
-    --muted: #a89a8c; --border: #3a332c; --accent: #8db4ec; --accent-soft: #23324a;
-    --warm: #e0a060; --danger: #f28b84; --shadow: 0 1px 2px rgba(0,0,0,.3);
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font: 16px/1.5 Inter, system-ui, -apple-system, sans-serif;
-  }
-  h1, h2, h3 { font-family: Fraunces, Georgia, serif; line-height: 1.2; margin: 0; }
-  button, input, select, textarea { font: inherit; color: inherit; }
-  .wrap { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-
-  header { padding: 28px 0 8px; }
-  .top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .brand h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); }
-  .brand p { margin: 2px 0 0; color: var(--muted); }
-  .brand { display: flex; align-items: center; gap: 16px; }
-  .avatar { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; object-position: center 40%; flex: none;
-            border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--accent), 0 4px 12px rgba(0,0,0,.12); }
-  @media (max-width: 520px) { .avatar { width: 64px; height: 64px; } }
-  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
-  .btn {
-    border: 1px solid var(--border); background: var(--surface); padding: 9px 14px;
-    border-radius: 10px; cursor: pointer; font-weight: 500;
-  }
-  .btn:hover { border-color: var(--accent); }
-  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  :root[data-theme="dark"] .btn.primary { color: #10161f; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { color: #10161f; } }
-  .btn.danger { color: var(--danger); }
-  .btn.ghost { background: transparent; border-color: transparent; }
-
-  nav.tabs {
-    display: flex; gap: 6px; overflow-x: auto; padding: 16px 0 4px; scrollbar-width: thin;
-    border-bottom: 1px solid var(--border); margin-bottom: 16px;
-  }
-  .tab {
-    flex: none; border: 0; background: transparent; padding: 9px 14px; border-radius: 10px 10px 0 0;
-    cursor: pointer; color: var(--muted); font-weight: 500; border-bottom: 3px solid transparent;
-  }
-  .tab:hover { color: var(--text); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab.jewish { font-weight: 600; }
-  .tab .count { font-size: .78em; background: var(--surface-2); padding: 1px 7px; border-radius: 99px; margin-left: 4px; }
-
-  .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
-  .toolbar input[type=search] { flex: 1 1 240px; }
-  input, select, textarea {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 9px 12px; width: 100%;
-  }
-  .toolbar select { width: auto; }
-  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
-
-  .jewish-banner {
-    background: var(--accent-soft); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px;
-    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
-  }
-  .jewish-banner .star { font-size: 1.6rem; color: var(--accent); }
-  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip {
-    border: 1px solid var(--border); background: var(--surface); border-radius: 99px; padding: 4px 11px;
-    font-size: .86rem; cursor: pointer;
-  }
-  .chip.active { background: var(--accent); color: var(--surface); border-color: var(--accent); }
-
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; padding-bottom: 48px; }
-  .card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
-    box-shadow: var(--shadow); cursor: pointer; display: flex; flex-direction: column; text-align: left; padding: 0;
-  }
-  .card:hover { border-color: var(--accent); }
-  .card .img { aspect-ratio: 16/10; background: var(--surface-2) center/cover no-repeat; display: grid; place-items: center; font-size: 2.2rem; }
-  .card .body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; }
-  .card h3 { font-size: 1.15rem; }
-  .meta { color: var(--muted); font-size: .86rem; display: flex; gap: 10px; flex-wrap: wrap; }
-  .tags { display: flex; gap: 5px; flex-wrap: wrap; }
-  .tag { font-size: .75rem; padding: 2px 8px; border-radius: 99px; background: var(--surface-2); color: var(--muted); }
-  .tag.j { background: var(--accent-soft); color: var(--accent); }
-  .tag.k-meat { color: #a3352b; } .tag.k-dairy { color: #2c6aa8; } .tag.k-pareve { color: #4d7a3a; }
-  .fav { color: var(--warm); }
-
-  .empty { text-align: center; padding: 56px 16px; color: var(--muted); grid-column: 1 / -1; }
-  .empty .big { font-size: 2.6rem; }
-
-  /* Dialogs */
-  dialog {
-    border: 0; border-radius: var(--radius); padding: 0; width: min(760px, calc(100vw - 24px));
-    max-height: calc(100vh - 32px); background: var(--surface); color: var(--text); box-shadow: 0 20px 60px rgba(0,0,0,.3);
-  }
-  dialog::backdrop { background: rgba(20,14,8,.5); }
-  .dlg-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); z-index: 1; gap: 8px; }
-  .dlg-body { padding: 18px 20px; }
-  .dlg-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 14px 20px; border-top: 1px solid var(--border); position: sticky; bottom: 0; background: var(--surface); flex-wrap: wrap; }
-  .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .form-grid .full { grid-column: 1 / -1; }
-  label { display: flex; flex-direction: column; gap: 4px; font-size: .88rem; font-weight: 500; color: var(--muted); }
-  label.inline { flex-direction: row; align-items: center; gap: 8px; }
-  label.inline input { width: auto; }
-  textarea { min-height: 120px; resize: vertical; }
-  .jewish-fields { border: 1px dashed var(--accent); border-radius: 12px; padding: 12px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .jewish-fields legend { color: var(--accent); font-weight: 600; padding: 0 6px; }
-  .hint { font-size: .8rem; color: var(--muted); font-weight: 400; }
-
-  .view-img { width: 100%; max-height: 340px; object-fit: cover; border-radius: 12px; margin-bottom: 14px; }
-  .view-cols { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; margin-top: 16px; }
-  .view-cols h3 { font-size: 1.1rem; margin-bottom: 8px; }
-  .view-cols ul, .view-cols ol { margin: 0; padding-left: 20px; }
-  .view-cols li { margin-bottom: 6px; }
-  .ing li { cursor: pointer; }
-  .ing li.done { text-decoration: line-through; color: var(--muted); }
-  .notes { background: var(--surface-2); padding: 12px 14px; border-radius: 10px; margin-top: 18px; white-space: pre-wrap; }
-
-  @media (max-width: 640px) {
-    .form-grid, .jewish-fields, .view-cols { grid-template-columns: 1fr; }
-  }
-  @media print {
-    header, nav, .toolbar, .jewish-banner, .grid, .dlg-foot, .dlg-head .btn { display: none !important; }
-    dialog { position: static; box-shadow: none; width: 100%; max-height: none; }
-    dialog::backdrop { display: none; }
-    body { background: #fff; color: #000; }
-  }
-</style>
-</head>
-<body>
-<header class="wrap">
-  <div class="top">
-    <div class="brand">
-      <img class="avatar" src="profile.jpg" alt="Lisa Harris" width="84" height="84">
-      <div>
-        <h1>Lisa Harris Cook Book</h1>
-        <p>Every family recipe, in one place.</p>
-      </div>
-    </div>
-    <div class="actions">
-      <button class="btn primary" id="addBtn">+ Add recipe</button>
-    </div>
-  </div>
-</header>
-
-<main class="wrap">
-  <nav class="tabs" id="tabs" aria-label="Recipe categories"></nav>
-  <div id="jewishBanner"></div>
-  <div class="toolbar">
-    <input type="search" id="search" placeholder="Search recipes, ingredients, notes…" aria-label="Search recipes">
-    <select id="sort" aria-label="Sort recipes">
-      <option value="az">A → Z</option>
-      <option value="new">Newest first</option>
-      <option value="fav">Favorites first</option>
-    </select>
-    <label class="inline"><input type="checkbox" id="favOnly"> Favorites only</label>
-  </div>
-  <section class="grid" id="grid" aria-live="polite"></section>
-</main>
-
-<!-- View recipe -->
-<dialog id="viewDlg">
-  <div class="dlg-head">
-    <h2 id="vTitle"></h2>
-    <button class="btn ghost" data-close aria-label="Close">✕</button>
-  </div>
-  <div class="dlg-body" id="vBody"></div>
-  <div class="dlg-foot">
-    <button class="btn danger" id="vDelete">Delete</button>
-    <button class="btn" id="vPrint">Print</button>
-    <button class="btn" id="vFav"></button>
-    <button class="btn primary" id="vEdit">Edit</button>
-  </div>
-</dialog>
-
-<!-- Add / edit recipe -->
-<dialog id="editDlg">
-  <form id="form" method="dialog">
-    <div class="dlg-head">
-      <h2 id="eTitle">Add recipe</h2>
-      <button type="button" class="btn ghost" data-close aria-label="Close">✕</button>
-    </div>
-    <div class="dlg-body form-grid">
-      <label class="full">Recipe name *<input name="title" required placeholder="e.g. Grandma's Brisket"></label>
-      <label>Category
-        <select name="category" id="catSelect"></select>
-      </label>
-      <label>From / credit<input name="source" placeholder="e.g. Aunt Ruth"></label>
-      <label>Prep + cook time<input name="time" placeholder="e.g. 1 hr 30 min"></label>
-      <label>Serves<input name="servings" placeholder="e.g. 6–8"></label>
-
-      <fieldset class="jewish-fields full" id="jewishFields">
-        <legend>✡ Jewish recipe details</legend>
-        <label>Holiday / occasion
-          <select name="holiday" id="holidaySelect"></select>
-        </label>
-        <label>Kosher type
-          <select name="kosher">
-            <option value="">—</option>
-            <option>Meat</option><option>Dairy</option><option>Pareve</option>
-          </select>
-        </label>
-        <label class="inline full"><input type="checkbox" name="passover"> Kosher for Passover</label>
-      </fieldset>
-
-      <label class="full">Ingredients <span class="hint">One per line</span>
-        <textarea name="ingredients" placeholder="2 cups flour&#10;3 eggs&#10;1 tsp salt"></textarea>
-      </label>
-      <label class="full">Directions <span class="hint">One step per line</span>
-        <textarea name="steps" placeholder="Preheat oven to 350°F.&#10;Mix dry ingredients…"></textarea>
-      </label>
-      <label class="full">Notes / memories<textarea name="notes" style="min-height:80px" placeholder="Always doubled for Thanksgiving…"></textarea></label>
-      <label class="full">Photo <span class="hint">Optional</span>
-        <input type="file" name="photo" accept="image/*">
-      </label>
-      <div class="full" id="photoPreview"></div>
-      <label class="inline full"><input type="checkbox" name="favorite"> ★ Favorite</label>
-    </div>
-    <div class="dlg-foot">
-      <button type="button" class="btn" data-close>Cancel</button>
-      <button type="submit" class="btn primary">Save recipe</button>
-    </div>
-  </form>
-</dialog>
-
-<script>
-(() => {
-  const STORE_KEY = 'lhcb.recipes.v1';
-  const CATEGORIES = [
-    { id: 'jewish',    label: 'Jewish',     icon: '✡' },
-    { id: 'thanksgiving', label: 'Thanksgiving', icon: '🦃' },
-    { id: 'sauces',    label: 'Sauces',     icon: '🥫' },
-    { id: 'other',     label: 'Other',      icon: '📝' },
-  ];
-  const HOLIDAYS = ['Shabbat', 'Rosh Hashanah', 'Yom Kippur Break-Fast', 'Sukkot', 'Hanukkah',
-                    'Purim', 'Passover', 'Shavuot', 'Everyday'];
-
-  const SEED_RECIPES = [
-    {
-      id: 'seed-skillet-matzah-brei', favorite: false,
-      title: 'Skillet Matzah Brei', category: 'jewish',
-      holiday: 'Passover', kosher: 'Pareve', passover: true,
-      source: '“Passover Lite” cookbook', time: '', servings: '4',
-      ingredients: 'Cooking spray\n2 tsp. oil\n4 matzahs\n4 egg whites\n1/2 tsp. onion powder, or to taste\n1/4 tsp. salt\n1/8 tsp. black pepper',
-      steps: 'Coat a large nonstick skillet or griddle with cooking spray and add 1/2 tsp. of the oil. Heat the skillet over medium-high heat until very hot.\nMeanwhile, moisten the matzah with cold water and crumble into a bowl. Add the egg whites and seasonings.\nSpoon half the mixture into the hot skillet or griddle as one large pancake and brown.\nWith a wide spatula, lift the matzah and add another 1/2 tsp. of oil. Turn to brown the other side.\nRepeat with remaining mixture and oil.',
-      notes: 'Per serving: Calories 157; Saturated fat 0 g; Total fat 2 g; Carbohydrates 27 g; Cholesterol 0 mg; Sodium 202 mg.\n\nFrom “Passover Lite” (printed from Jewish.com).',
-      photo: '',
-    },
-    {
-      id: 'seed-coconut-macaroons', favorite: false,
-      title: 'Coconut Macaroons', category: 'jewish',
-      holiday: 'Passover', kosher: 'Dairy', passover: false,
-      source: 'Jennifer Segal, Once Upon a Chef', time: '45 min (20 prep + 25 cook)', servings: '26 macaroons',
-      ingredients: [
-        '5-1/3 cups (one 14-oz bag) sweetened shredded coconut (such as Baker’s Angel Flake)',
-        '7/8 cup sweetened condensed milk (not evaporated milk; see note)',
-        '1 tsp vanilla extract',
-        '2 large egg whites',
-        '1/4 tsp salt',
-        '4 oz semi-sweet chocolate, best quality such as Ghirardelli, chopped (optional)',
-      ].join('\n'),
-      steps: [
-        'Preheat the oven to 325°F. Set two oven racks near the center of the oven. Line two baking sheets with parchment paper.',
-        'In a medium bowl, mix together the shredded coconut, sweetened condensed milk and vanilla extract. Set aside.',
-        'In the bowl of an electric mixer, beat the egg whites and salt until stiff peaks form. Use a large rubber spatula to fold the egg whites into the coconut mixture.',
-        'Using two spoons, form heaping tablespoons of the mixture into mounds on the prepared baking sheets, spacing about 1 inch apart. Bake for 23 to 25 minutes, rotating the pans from top to bottom and front to back, until the tops and edges are golden. Let cool on the pans for a few minutes, then transfer to a wire rack to cool completely.',
-        'If dipping the macaroons in chocolate, melt the chocolate in a microwave-safe bowl at medium power, stopping and stirring at 30-second intervals, until just smooth and creamy. (Alternatively, melt the chocolate in a double boiler over simmering water.) Dip the bottoms of the macaroons in the chocolate, letting any excess drip back into the bowl, and return to the lined baking sheets. Refrigerate for about 10 minutes to allow the chocolate to set.',
-        'The cookies keep well in an airtight container at room temperature for about a week.',
-      ].join('\n'),
-      notes: 'Note: 7/8 cup = 3/4 cup plus 2 tablespoons.',
-      photo: 'photos/macaroons.jpg',
-    },
-    {
-      id: 'seed-gefilte-fish-loaves', favorite: false,
-      title: 'Gefilte Fish (from Frozen Loaves)', category: 'jewish',
-      holiday: 'Passover', kosher: 'Pareve', passover: false,
-      source: 'Handwritten (Lubavitch)', time: 'About 1 hr 45 min', servings: '2 loaves',
-      ingredients: [
-        '2 frozen ready-to-cook gefilte fish loaves',
-        '6 carrots',
-        '1 parsnip',
-        '2 medium onions',
-        '5–6 cups water',
-        'Pepper',
-        'A little salt',
-      ].join('\n'),
-      steps: [
-        'Peel the carrots, parsnip and onions and cut in chunks or slices.',
-        'Put all the vegetables in a 5-quart Dutch oven with 5 cups water (5–6 cups for 2 loaves).',
-        'Unwrap the fish (keep the parchment on) and rinse under cold water. Put in the pot, cover, and cook over medium heat about 10 minutes.',
-        'Take a fork and remove the parchment paper.',
-        'Add pepper and a little salt. Simmer, covered, for 1 1/2 hours.',
-      ].join('\n'),
-      notes: 'Written at the top of the page: “JCC – Boulder, Tues 3:30–5:30” and “$8.75 – matza”.',
-      photo: '',
-    },
-    {
-      id: 'seed-kale-brussels-salad', favorite: false,
-      title: 'Kale and Brussels Sprouts Salad with Butternut Squash, Pomegranate, and Candied Pecans', category: 'thanksgiving',
-      source: 'Two Peas & Their Pod', time: '45 min (15 prep + 30 cook)', servings: '6',
-      ingredients: [
-        'For the salad:',
-        '1 small butternut squash, peeled, seeds removed, and chopped into 1/2-inch cubes',
-        '1 tbsp olive oil',
-        'Pinch of sea salt',
-        '1 small bunch Lacinato kale (Dino or Tuscan kale), finely chopped',
-        '1 lb brussels sprouts, finely chopped',
-        '1 cup pomegranate seeds (from one large pomegranate)',
-        '1/2 cup candied pecans (see Candied Pecans recipe)',
-        '1/3 cup shredded Parmesan cheese',
-        'For the dressing:',
-        '1/4 cup olive oil',
-        '2 tbsp apple cider vinegar',
-        '1 tsp Dijon mustard',
-        '1 small clove garlic, minced',
-        '2 tsp shallot, minced',
-        'Salt and black pepper, to taste',
-      ].join('\n'),
-      steps: [
-        'Preheat the oven to 400°F. Place the butternut squash on a large baking sheet. Drizzle with olive oil and toss. Season with salt and black pepper, to taste. Roast the squash for 25–30 minutes, stirring once, or until the squash is tender. Remove from the oven and set aside.',
-        'Place the kale in a large bowl and sprinkle with sea salt. Massage the leaves for 2–3 minutes, or until they soften and start to wilt. Stir in the chopped brussels sprouts, butternut squash, pomegranate seeds, candied pecans, and Parmesan cheese.',
-        'To make the dressing, whisk together the olive oil, apple cider vinegar, mustard, garlic, and shallot. Season with salt and black pepper, to taste.',
-        'Pour the dressing over the salad and toss well. Serve!',
-      ].join('\n'),
-      notes: 'This gorgeous salad is perfect for all of your holiday meals!',
-      photo: 'photos/kale.jpg',
-    },
-    {
-      id: 'seed-candied-pecans', favorite: false,
-      title: 'Candied Pecans', category: 'thanksgiving',
-      source: 'Two Peas & Their Pod (twopeasandtheirpod.com/candied-pecans)', time: '55 min (10 prep + 40–45 cook)', servings: '4 cups',
-      ingredients: [
-        '1/2 cup granulated sugar',
-        '1/2 cup light brown sugar',
-        '1 tbsp ground cinnamon',
-        '1 tsp salt',
-        '16 oz (about 4 cups) unsalted pecan halves',
-        '1 egg white',
-        '1/2 tsp vanilla extract',
-        '1 tsp water',
-      ].join('\n'),
-      steps: [
-        'Preheat oven to 300°F. Line a large baking sheet with a Silpat baking mat or parchment paper and set aside.',
-        'In a medium bowl, add sugars, cinnamon, and salt. Whisk until combined. Set aside.',
-        'In a large bowl, whisk the egg white, vanilla, and water together until frothy. Add the pecans and gently toss until the pecans are well coated. Add the sugar and cinnamon mixture and toss until pecans are covered.',
-        'Spread the pecans out in a single layer on the prepared baking sheet. Bake for about 40–45 minutes, stirring every 15 minutes. The sugar mixture will harden on the pecans.',
-        'Remove from the oven and let the pecans cool on the baking sheet. When completely cool, store in an airtight container for up to 1 month.',
-      ].join('\n'),
-      notes: 'A great topping for salads, main dishes, and desserts — and for the Kale and Brussels Sprouts Salad. Also good by the handful and a great holiday gift!',
-      photo: 'photos/pecans.jpg',
-    },
-    {
-      id: 'seed-honey-rosemary-sweet-potatoes', favorite: false,
-      title: 'Honey and Rosemary Sweet Potatoes', category: 'thanksgiving',
-      source: 'Allrecipes (recipe by Coco)', time: '1 hr 15 min (15 prep + 1 hr cook)', servings: '',
-      ingredients: [
-        '2 tbsp olive oil',
-        '1/4 cup honey',
-        '2 tbsp chopped fresh rosemary',
-        '1 tsp salt',
-        '1 tsp freshly ground black pepper',
-        '3 large sweet potatoes, peeled and cut in 1-inch cubes',
-      ].join('\n'),
-      steps: [
-        'Preheat oven to 350°F (175°C). Line a baking sheet with foil or parchment paper.',
-        'Mix the olive oil, honey, rosemary, salt, and black pepper together in a large bowl, and stir the sweet potato cubes in the mixture to coat. Remove sweet potato cubes with a slotted spoon, and arrange in a single layer on the prepared baking sheet.',
-        'Bake in the preheated oven until tender, about 45 minutes. Turn oven heat up to 450°F (230°C) and bake until browned, another 15 minutes.',
-      ].join('\n'),
-      notes: '“Baked until chewy on the outside and soft on the inside, these are a perfect balance of salty and sweet. The rosemary makes them addictive.”\n\nPrinted from Allrecipes.com, 11/24/2015.',
-      photo: 'photos/sweetpotato.jpg',
-    },
-    {
-      id: 'seed-leftover-turkey-pho', favorite: false,
-      title: 'Leftover Roast Turkey Pho', category: 'thanksgiving',
-      source: 'Food Network Kitchen', time: '2 hr (20 min prep + 1 hr 40 min cook)', servings: '6',
-      ingredients: [
-        'Broth:',
-        '1 leftover turkey carcass, including any leg bones and reserved turkey parts (such as the neck, wings, etc.), plus 1 lb leftover turkey meat (about 4 cups), shredded into large bite-size pieces',
-        '3 large yellow onions, halved',
-        'One 6-inch piece fresh ginger root, halved lengthwise',
-        '1 head garlic, halved crosswise',
-        '3 tbsp vegetable oil',
-        'Kosher salt',
-        '4 star anise pods',
-        '3 tbsp whole black peppercorns',
-        '2 cinnamon sticks',
-        '12 cups low-sodium chicken broth',
-        '1/4 to 1/3 cup fish sauce',
-        'Soup:',
-        '1 lb flat rice noodles',
-        '4 cups fresh bean sprouts',
-        '1 large bunch Thai basil',
-        '2 jalapeño peppers, thinly sliced',
-        '1 large red onion, halved and thinly sliced',
-        'Hoisin sauce and/or sriracha, for serving',
-        'Lime wedges, for serving',
-      ].join('\n'),
-      steps: [
-        'For the broth: Position a rack in the upper third of the oven and preheat to 450°F. Toss the turkey bones and parts, onions, ginger and garlic with the vegetable oil in a large bowl. Lightly sprinkle with salt and transfer to a rimmed baking sheet, spreading everything out into a somewhat even layer (it is okay if some items slightly overlap). Roast, turning the bones and vegetables halfway through, until the vegetables are slightly charred, about 30 minutes.',
-        'Meanwhile, add the star anise pods, peppercorns and cinnamon sticks to a large pot. Set over medium heat and toast until very fragrant, shaking the pot occasionally, about 5 minutes. Turn off the heat and add the chicken broth, fish sauce (according to taste), and 8 cups of water.',
-        'Add the roasted turkey bones and vegetables to the pot, scraping any browned bits off the baking sheet and adding them in as well. Bring to a boil over high heat, then reduce the heat to medium-low and gently simmer for 1 hour. Remove from the heat and strain the broth through a fine-mesh sieve into another large pot. (The broth can be made to this point up to 2 days in advance; let cool, then refrigerate in a covered container.) Stir the shredded turkey meat into the hot broth.',
-        'For the soup: Cook the noodles according to the package instructions. Divide the noodles among 6 bowls, then top with the broth and shredded meat. Serve with the bean sprouts, Thai basil, jalapeños, red onion, hoisin sauce, sriracha and a lime wedge on the side so guests can top their pho as they like.',
-      ].join('\n'),
-      notes: 'Reinvent your Thanksgiving turkey into a bowl of intensely flavorful Vietnamese pho. Store-bought chicken broth is fortified with turkey bones, charred vegetables and toasted spices for a rich broth that goes from stovetop to table in less than two hours.',
-      photo: 'photos/pho.jpg',
-    },
-    {
-      id: 'seed-hot-pot-sauces', favorite: false,
-      title: 'Hot Pot Sauces (5 Flavors)', category: 'sauces',
-      source: 'ChihYu Smith, I Heart Umami (iheartumami.com/hotpot-sauces)', time: '5 min', servings: 'Each sauce serves 1',
-      ingredients: [
-        'Taiwanese Shacha Hotpot Sauce:',
-        '1 oz garlic clove, crushed or grated',
-        '4 tbsp shacha sauce (use 1.5 tbsp if store-bought)',
-        '1 tbsp soy sauce or coconut aminos',
-        '1 tbsp rice vinegar',
-        '1 tbsp aged balsamic vinegar',
-        '2 bulbs scallion, chopped',
-        '2 tsp toasted sesame oil',
-        '4 tsp chopped Thai red chili peppers (optional)',
-        'Garlic Sesame Sauce:',
-        '4 tbsp Chinese sesame paste or 1.5 tbsp tahini',
-        '2 tbsp cashew butter',
-        '1 tbsp soy sauce or coconut aminos',
-        '2 tbsp rice vinegar',
-        '0.6 oz garlic clove, crushed or grated',
-        '2.8 tsp Takii shiitake mushroom seasoning (optional)',
-        '2–4 tbsp water, or more for a thinner sauce',
-        'Chinese Spicy Chili Garlic Hotpot Sauce:',
-        '4 tbsp chili garlic sauce, or your preferred store-bought version',
-        '2 tbsp aged balsamic vinegar or Chinese black vinegar',
-        '2 tsp toasted sesame oil',
-        '1 tbsp rice vinegar',
-        '2 bulbs scallion, chopped',
-        '2 tsp toasted white sesame seeds',
-        '0.5 tsp Sichuan peppercorn powder (optional)',
-        '2 tbsp vegetarian oyster sauce or store-bought (optional)',
-        'Japanese Sesame Miso Sauce:',
-        '2 tbsp white miso paste or chickpea miso',
-        '1 tbsp toasted sesame oil',
-        '2 tbsp rice vinegar',
-        '4 tbsp Chinese sesame paste or 1.5 tbsp tahini',
-        '1 tbsp soy sauce or coconut aminos',
-        '2 tsp toasted white sesame seeds',
-        '4–5 tbsp water, or more to thin the sauce',
-        'Spicy “Peanut” Sauce:',
-        '4 tbsp unsalted peanut butter or almond butter',
-        '2 tbsp soy sauce or coconut aminos',
-        '1 tbsp toasted sesame oil',
-        '2 tbsp rice vinegar',
-        '4 tbsp water, or more to thin the sauce',
-        '2 tbsp garlic chili sauce (optional), or your preferred store-bought version',
-        '4 tsp chopped cilantro (optional)',
-      ].join('\n'),
-      steps: [
-        'Pick a flavor profile (or more) you like to use for your hotpot.',
-        'Gather all the ingredients and mix them in a dipping sauce bowl — that’s it!',
-      ].join('\n'),
-      notes: [
-        'Hotpot sauces with 5 different flavors for hot pot dipping — from Chinese steamboat to Japanese shabu.',
-        '',
-        '• Each recipe is for 1 person, so you can easily scale up for more.',
-        '• If you can’t find Chinese sesame paste, use a blend of unsweetened peanut butter with tahini.',
-        '• Use store-bought shacha sauce if you want to make the sauce faster.',
-        '• Aged balsamic vinegar tastes naturally sweeter with a thicker consistency. You can also use a small amount of regular balsamic vinegar.',
-        '• Miso paste: if you prefer soy-free, use chickpea miso paste.',
-        '• Store the sauce in an airtight glass container in the fridge and use within one week. If it becomes too thick, add 1–2 tbsp of water.',
-        '',
-        'Nutrition (per serving): 195 kcal; Carbs 13 g; Protein 5 g; Fat 18 g; Saturated fat 4 g; Sodium 575 mg; Fiber 2 g; Sugar 3 g.',
-      ].join('\n'),
-      photo: 'photos/hotpot.jpg',
-    },
-  ];
-
-  const $ = s => document.querySelector(s);
-  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const lines = s => String(s || '').split('\n').map(l => l.trim()).filter(Boolean);
-  const catOf = id => CATEGORIES.find(c => c.id === id) || CATEGORIES.at(-1);
-
-  // ---------- storage ----------
-  const SEEDED_KEY = 'lhcb.seeded.v1';
-  let recipes = load();
-  function load() {
-    let list = [];
-    try {
-      const raw = localStorage.getItem(STORE_KEY);
-      if (raw) list = JSON.parse(raw);
-    } catch (e) { console.warn(e); }
-    // Remove the old placeholder sample recipe.
-    list = list.filter(r => !String(r.title || '').startsWith('Classic Challah (sample'));
-    // Hot Pot Sauces moved from Other to the new Sauces tab.
-    list.forEach(r => { if (r.id === 'seed-hot-pot-sauces' && r.category === 'other') r.category = 'sauces'; });
-    // Give built-in recipes their printout photos once (if they don't already have one).
-    let photoed = false;
-    try { photoed = localStorage.getItem('lhcb.seedphotos.v1') === '1'; } catch {}
-    if (!photoed) {
-      for (const s of SEED_RECIPES) {
-        const r = list.find(r => r.id === s.id);
-        if (r && !r.photo && s.photo) r.photo = s.photo;
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lisa Harris Cook Book</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #faf6ef;
+        --surface: #ffffff;
+        --surface-2: #f3ece0;
+        --text: #2b2420;
+        --muted: #7a6d62;
+        --border: #e6dccd;
+        --accent: #1f4e8c; /* deep blue */
+        --accent-soft: #e3ecf8;
+        --warm: #b5651d;
+        --danger: #b3261e;
+        --shadow:
+          0 1px 2px rgba(60, 40, 20, 0.06), 0 4px 16px rgba(60, 40, 20, 0.06);
+        --radius: 14px;
       }
-      try { localStorage.setItem('lhcb.seedphotos.v1', '1'); } catch {}
-    }
-    // Add built-in recipes once (so deleting one later won't bring it back).
-    let seeded = [];
-    try { seeded = JSON.parse(localStorage.getItem(SEEDED_KEY) || '[]'); } catch {}
-    for (const s of SEED_RECIPES) {
-      if (!seeded.includes(s.id) && !list.some(r => r.id === s.id)) list.push({ ...s, created: Date.now() });
-      if (!seeded.includes(s.id)) seeded.push(s.id);
-    }
-    try {
-      localStorage.setItem(STORE_KEY, JSON.stringify(list));
-      localStorage.setItem(SEEDED_KEY, JSON.stringify(seeded));
-    } catch (e) { console.warn(e); }
-    return list;
-  }
-  function save() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(recipes)); return true; }
-    catch (e) {
-      alert('Could not save — your browser storage may be full (photos take up the most space). Try a smaller photo.');
-      return false;
-    }
-  }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg: #1b1815;
+          --surface: #24201c;
+          --surface-2: #2e2924;
+          --text: #f1ebe3;
+          --muted: #a89a8c;
+          --border: #3a332c;
+          --accent: #8db4ec;
+          --accent-soft: #23324a;
+          --warm: #e0a060;
+          --danger: #f28b84;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg: #1b1815;
+        --surface: #24201c;
+        --surface-2: #2e2924;
+        --text: #f1ebe3;
+        --muted: #a89a8c;
+        --border: #3a332c;
+        --accent: #8db4ec;
+        --accent-soft: #23324a;
+        --warm: #e0a060;
+        --danger: #f28b84;
+        --shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          16px/1.5 Inter,
+          system-ui,
+          -apple-system,
+          sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: Fraunces, Georgia, serif;
+        line-height: 1.2;
+        margin: 0;
+      }
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+        color: inherit;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
 
-  // ---------- state ----------
-  let tab = 'all';
-  let holidayFilter = '';
-  let editingId = null;
-  let viewingId = null;
-  let pendingPhoto = null; // undefined = unchanged, '' = removed, dataURL = new
+      header {
+        padding: 28px 0 8px;
+      }
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .brand h1 {
+        font-size: clamp(1.6rem, 4vw, 2.3rem);
+      }
+      .brand p {
+        margin: 2px 0 0;
+        color: var(--muted);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .avatar {
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        object-fit: cover;
+        object-position: center 40%;
+        flex: none;
+        border: 3px solid var(--surface);
+        box-shadow:
+          0 0 0 2px var(--accent),
+          0 4px 12px rgba(0, 0, 0, 0.12);
+      }
+      @media (max-width: 520px) {
+        .avatar {
+          width: 64px;
+          height: 64px;
+        }
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
 
-  // ---------- render ----------
-  function renderTabs() {
-    const counts = Object.fromEntries(CATEGORIES.map(c => [c.id, 0]));
-    recipes.forEach(r => counts[catOf(r.category).id]++);
-    const tabs = [{ id: 'all', label: 'All Recipes', icon: '📖' }, ...CATEGORIES];
-    $('#tabs').innerHTML = tabs.map(t => {
-      const n = t.id === 'all' ? recipes.length : counts[t.id];
-      return `<button class="tab ${t.id === tab ? 'active' : ''} ${t.id === 'jewish' ? 'jewish' : ''}" data-tab="${t.id}" role="tab" aria-selected="${t.id === tab}">
-        ${t.icon} ${esc(t.label)}<span class="count">${n}</span></button>`;
-    }).join('');
-  }
+      .btn {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        padding: 9px 14px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 500;
+      }
+      .btn:hover {
+        border-color: var(--accent);
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+      }
+      :root[data-theme="dark"] .btn.primary {
+        color: #10161f;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .btn.primary {
+          color: #10161f;
+        }
+      }
+      .btn.danger {
+        color: var(--danger);
+      }
+      .btn.ghost {
+        background: transparent;
+        border-color: transparent;
+      }
 
-  function renderBanner() {
-    const el = $('#jewishBanner');
-    if (tab !== 'jewish') { el.innerHTML = ''; return; }
-    const used = new Set(recipes.filter(r => r.category === 'jewish').map(r => r.holiday).filter(Boolean));
-    const opts = HOLIDAYS.filter(h => used.has(h));
-    el.innerHTML = `<div class="jewish-banner">
-      <span class="star">✡</span>
-      <div style="flex:1 1 200px"><strong>Jewish Recipes</strong><br><span class="hint">Holiday dishes, Shabbat favorites and family traditions.</span></div>
-      ${opts.length ? `<div class="chips">
-        <button class="chip ${holidayFilter === '' ? 'active' : ''}" data-holiday="">All holidays</button>
-        ${opts.map(h => `<button class="chip ${holidayFilter === h ? 'active' : ''}" data-holiday="${esc(h)}">${esc(h)}</button>`).join('')}
-      </div>` : ''}
-    </div>`;
-  }
+      nav.tabs {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        padding: 16px 0 4px;
+        scrollbar-width: thin;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 16px;
+      }
+      .tab {
+        flex: none;
+        border: 0;
+        background: transparent;
+        padding: 9px 14px;
+        border-radius: 10px 10px 0 0;
+        cursor: pointer;
+        color: var(--muted);
+        font-weight: 500;
+        border-bottom: 3px solid transparent;
+      }
+      .tab:hover {
+        color: var(--text);
+      }
+      .tab.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+      .tab.jewish {
+        font-weight: 600;
+      }
+      .tab .count {
+        font-size: 0.78em;
+        background: var(--surface-2);
+        padding: 1px 7px;
+        border-radius: 99px;
+        margin-left: 4px;
+      }
 
-  function filtered() {
-    const q = $('#search').value.trim().toLowerCase();
-    const favOnly = $('#favOnly').checked;
-    let list = recipes.filter(r =>
-      (tab === 'all' || catOf(r.category).id === tab) &&
-      (tab !== 'jewish' || !holidayFilter || r.holiday === holidayFilter) &&
-      (!favOnly || r.favorite) &&
-      (!q || [r.title, r.ingredients, r.steps, r.notes, r.source, r.holiday].join(' ').toLowerCase().includes(q))
-    );
-    const sort = $('#sort').value;
-    list.sort((a, b) =>
-      sort === 'new' ? b.created - a.created :
-      sort === 'fav' ? (b.favorite - a.favorite) || a.title.localeCompare(b.title) :
-      a.title.localeCompare(b.title));
-    return list;
-  }
+      .toolbar {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+        align-items: center;
+      }
+      .toolbar input[type="search"] {
+        flex: 1 1 240px;
+      }
+      input,
+      select,
+      textarea {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 9px 12px;
+        width: 100%;
+      }
+      .toolbar select {
+        width: auto;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: 2px solid var(--accent-soft);
+        border-color: var(--accent);
+      }
 
-  function jewishTags(r) {
-    if (r.category !== 'jewish') return '';
-    let t = '';
-    if (r.holiday) t += `<span class="tag j">${esc(r.holiday)}</span>`;
-    if (r.kosher) t += `<span class="tag k-${r.kosher.toLowerCase()}">${esc(r.kosher)}</span>`;
-    if (r.passover) t += `<span class="tag j">Kosher for Passover</span>`;
-    return t;
-  }
+      .jewish-banner {
+        background: var(--accent-soft);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        margin-bottom: 16px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .jewish-banner .star {
+        font-size: 1.6rem;
+        color: var(--accent);
+      }
+      .chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+      .chip {
+        border: 1px solid var(--border);
+        background: var(--surface);
+        border-radius: 99px;
+        padding: 4px 11px;
+        font-size: 0.86rem;
+        cursor: pointer;
+      }
+      .chip.active {
+        background: var(--accent);
+        color: var(--surface);
+        border-color: var(--accent);
+      }
 
-  function renderGrid() {
-    const list = filtered();
-    const grid = $('#grid');
-    if (!list.length) {
-      const anyInTab = recipes.some(r => tab === 'all' || catOf(r.category).id === tab);
-      grid.innerHTML = `<div class="empty"><div class="big">${tab === 'jewish' ? '✡' : '🍽️'}</div>
-        <p>${anyInTab ? 'No recipes match your search.' : `No ${tab === 'all' ? '' : esc(catOf(tab).label) + ' '}recipes yet.`}</p>
-        ${anyInTab ? '' : `<button class="btn primary" data-add>+ Add ${tab === 'all' ? 'your first' : 'a ' + esc(catOf(tab).label)} recipe</button>`}</div>`;
-      return;
-    }
-    grid.innerHTML = list.map(r => {
-      const c = catOf(r.category);
-      return `<button class="card" data-id="${r.id}">
-        <div class="img" style="${r.photo ? `background-image:url('${r.photo}')` : ''}">${r.photo ? '' : c.icon}</div>
-        <div class="body">
-          <h3>${r.favorite ? '<span class="fav">★</span> ' : ''}${esc(r.title)}</h3>
-          <div class="meta">
-            ${tab === 'all' ? `<span>${c.icon} ${esc(c.label)}</span>` : ''}
-            ${r.time ? `<span>⏱ ${esc(r.time)}</span>` : ''}
-            ${r.servings ? `<span>🍽 ${esc(r.servings)}</span>` : ''}
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 16px;
+        padding-bottom: 48px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        padding: 0;
+      }
+      .card:hover {
+        border-color: var(--accent);
+      }
+      .card .img {
+        aspect-ratio: 16/10;
+        background: var(--surface-2) center/cover no-repeat;
+        display: grid;
+        place-items: center;
+        font-size: 2.2rem;
+      }
+      .card .body {
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .card h3 {
+        font-size: 1.15rem;
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 0.86rem;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .tags {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .tag {
+        font-size: 0.75rem;
+        padding: 2px 8px;
+        border-radius: 99px;
+        background: var(--surface-2);
+        color: var(--muted);
+      }
+      .tag.j {
+        background: var(--accent-soft);
+        color: var(--accent);
+      }
+      .tag.k-meat {
+        color: #a3352b;
+      }
+      .tag.k-dairy {
+        color: #2c6aa8;
+      }
+      .tag.k-pareve {
+        color: #4d7a3a;
+      }
+      .fav {
+        color: var(--warm);
+      }
+
+      .empty {
+        text-align: center;
+        padding: 56px 16px;
+        color: var(--muted);
+        grid-column: 1 / -1;
+      }
+      .empty .big {
+        font-size: 2.6rem;
+      }
+
+      /* Dialogs */
+      dialog {
+        border: 0;
+        border-radius: var(--radius);
+        padding: 0;
+        width: min(760px, calc(100vw - 24px));
+        max-height: calc(100vh - 32px);
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+      dialog::backdrop {
+        background: rgba(20, 14, 8, 0.5);
+      }
+      .dlg-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        background: var(--surface);
+        z-index: 1;
+        gap: 8px;
+      }
+      .dlg-body {
+        padding: 18px 20px;
+      }
+      .dlg-foot {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        padding: 14px 20px;
+        border-top: 1px solid var(--border);
+        position: sticky;
+        bottom: 0;
+        background: var(--surface);
+        flex-wrap: wrap;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .form-grid .full {
+        grid-column: 1 / -1;
+      }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--muted);
+      }
+      label.inline {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+      }
+      label.inline input {
+        width: auto;
+      }
+      textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .jewish-fields {
+        border: 1px dashed var(--accent);
+        border-radius: 12px;
+        padding: 12px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      .jewish-fields legend {
+        color: var(--accent);
+        font-weight: 600;
+        padding: 0 6px;
+      }
+      .hint {
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-weight: 400;
+      }
+
+      .view-img {
+        width: 100%;
+        max-height: 340px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 14px;
+      }
+      .view-cols {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 24px;
+        margin-top: 16px;
+      }
+      .view-cols h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+      }
+      .view-cols ul,
+      .view-cols ol {
+        margin: 0;
+        padding-left: 20px;
+      }
+      .view-cols li {
+        margin-bottom: 6px;
+      }
+      .ing li {
+        cursor: pointer;
+      }
+      .ing li.done {
+        text-decoration: line-through;
+        color: var(--muted);
+      }
+      .notes {
+        background: var(--surface-2);
+        padding: 12px 14px;
+        border-radius: 10px;
+        margin-top: 18px;
+        white-space: pre-wrap;
+      }
+
+      @media (max-width: 640px) {
+        .form-grid,
+        .jewish-fields,
+        .view-cols {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media print {
+        header,
+        nav,
+        .toolbar,
+        .jewish-banner,
+        .grid,
+        .dlg-foot,
+        .dlg-head .btn {
+          display: none !important;
+        }
+        dialog {
+          position: static;
+          box-shadow: none;
+          width: 100%;
+          max-height: none;
+        }
+        dialog::backdrop {
+          display: none;
+        }
+        body {
+          background: #fff;
+          color: #000;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="wrap">
+      <div class="top">
+        <div class="brand">
+          <img
+            class="avatar"
+            src="profile.jpg"
+            alt="Lisa Harris"
+            width="84"
+            height="84"
+          />
+          <div>
+            <h1>Lisa Harris Cook Book</h1>
+            <p>Every family recipe, in one place.</p>
           </div>
-          <div class="tags">${jewishTags(r)}</div>
-        </div></button>`;
-    }).join('');
-  }
-
-  function render() { renderTabs(); renderBanner(); renderGrid(); }
-
-  // ---------- view ----------
-  function openView(id) {
-    const r = recipes.find(x => x.id === id); if (!r) return;
-    viewingId = id;
-    const c = catOf(r.category);
-    $('#vTitle').textContent = r.title;
-    const ing = lines(r.ingredients), steps = lines(r.steps);
-    $('#vBody').innerHTML = `
-      ${r.photo ? `<img class="view-img" src="${r.photo}" alt="">` : ''}
-      <div class="meta">
-        <span>${c.icon} ${esc(c.label)}</span>
-        ${r.time ? `<span>⏱ ${esc(r.time)}</span>` : ''}
-        ${r.servings ? `<span>🍽 Serves ${esc(r.servings)}</span>` : ''}
-        ${r.source ? `<span>👤 From ${esc(r.source)}</span>` : ''}
+        </div>
+        <div class="actions">
+          <button class="btn primary" id="addBtn">+ Add recipe</button>
+        </div>
       </div>
-      <div class="tags" style="margin-top:8px">${jewishTags(r)}</div>
-      <div class="view-cols">
-        <div><h3>Ingredients</h3>${ing.length ? `<ul class="ing">${ing.map(i => `<li>${esc(i)}</li>`).join('')}</ul><p class="hint">Tap an ingredient to check it off.</p>` : '<p class="hint">None listed.</p>'}</div>
-        <div><h3>Directions</h3>${steps.length ? `<ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : '<p class="hint">None listed.</p>'}</div>
+    </header>
+
+    <main class="wrap">
+      <nav class="tabs" id="tabs" aria-label="Recipe categories"></nav>
+      <div id="jewishBanner"></div>
+      <div class="toolbar">
+        <input
+          type="search"
+          id="search"
+          placeholder="Search recipes, ingredients, notes…"
+          aria-label="Search recipes"
+        />
+        <select id="sort" aria-label="Sort recipes">
+          <option value="az">A → Z</option>
+          <option value="new">Newest first</option>
+          <option value="fav">Favorites first</option>
+        </select>
+        <label class="inline"
+          ><input type="checkbox" id="favOnly" /> Favorites only</label
+        >
       </div>
-      ${r.notes ? `<div class="notes"><strong>Notes</strong><br>${esc(r.notes)}</div>` : ''}`;
-    $('#vFav').textContent = r.favorite ? '★ Favorited' : '☆ Favorite';
-    $('#viewDlg').showModal();
-  }
+      <section class="grid" id="grid" aria-live="polite"></section>
+    </main>
 
-  // ---------- edit ----------
-  function openEdit(id) {
-    const f = $('#form');
-    f.reset();
-    editingId = id || null;
-    pendingPhoto = undefined;
-    const r = id ? recipes.find(x => x.id === id) : null;
-    $('#eTitle').textContent = r ? 'Edit recipe' : 'Add recipe';
-    const defaultCat = tab === 'all' ? 'jewish' : tab;
-    const data = r || { category: defaultCat };
-    for (const k of ['title','category','source','time','servings','holiday','kosher','ingredients','steps','notes']) {
-      f.elements[k].value = data[k] ?? '';
-    }
-    f.elements.category.value = data.category || defaultCat;
-    f.elements.passover.checked = !!data.passover;
-    f.elements.favorite.checked = !!data.favorite;
-    showPhotoPreview(r?.photo || '');
-    toggleJewishFields();
-    $('#editDlg').showModal();
-    f.elements.title.focus();
-  }
+    <!-- View recipe -->
+    <dialog id="viewDlg">
+      <div class="dlg-head">
+        <h2 id="vTitle"></h2>
+        <button class="btn ghost" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="dlg-body" id="vBody"></div>
+      <div class="dlg-foot">
+        <button class="btn danger" id="vDelete">Delete</button>
+        <button class="btn" id="vPrint">Print</button>
+        <button class="btn" id="vFav"></button>
+        <button class="btn primary" id="vEdit">Edit</button>
+      </div>
+    </dialog>
 
-  function showPhotoPreview(src) {
-    $('#photoPreview').innerHTML = src
-      ? `<img src="${src}" alt="" style="max-width:180px;border-radius:10px;display:block;margin-bottom:6px">
-         <button type="button" class="btn danger" id="removePhoto">Remove photo</button>` : '';
-  }
+    <!-- Add / edit recipe -->
+    <dialog id="editDlg">
+      <form id="form" method="dialog">
+        <div class="dlg-head">
+          <h2 id="eTitle">Add recipe</h2>
+          <button type="button" class="btn ghost" data-close aria-label="Close">
+            ✕
+          </button>
+        </div>
+        <div class="dlg-body form-grid">
+          <label class="full"
+            >Recipe name *<input
+              name="title"
+              required
+              placeholder="e.g. Grandma's Brisket"
+          /></label>
+          <label
+            >Category
+            <select name="category" id="catSelect"></select>
+          </label>
+          <label
+            >From / credit<input name="source" placeholder="e.g. Aunt Ruth"
+          /></label>
+          <label
+            >Prep + cook time<input name="time" placeholder="e.g. 1 hr 30 min"
+          /></label>
+          <label>Serves<input name="servings" placeholder="e.g. 6–8" /></label>
 
-  function toggleJewishFields() {
-    $('#jewishFields').style.display = $('#catSelect').value === 'jewish' ? '' : 'none';
-  }
+          <fieldset class="jewish-fields full" id="jewishFields">
+            <legend>✡ Jewish recipe details</legend>
+            <label
+              >Holiday / occasion
+              <select name="holiday" id="holidaySelect"></select>
+            </label>
+            <label
+              >Kosher type
+              <select name="kosher">
+                <option value="">—</option>
+                <option>Meat</option>
+                <option>Dairy</option>
+                <option>Pareve</option>
+              </select>
+            </label>
+            <label class="inline full"
+              ><input type="checkbox" name="passover" /> Kosher for
+              Passover</label
+            >
+          </fieldset>
 
-  // Shrink photos so they fit comfortably in browser storage.
-  function resizeImage(file, max = 1000) {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      const url = URL.createObjectURL(file);
-      img.onload = () => {
-        const scale = Math.min(1, max / Math.max(img.width, img.height));
-        const cv = document.createElement('canvas');
-        cv.width = Math.round(img.width * scale); cv.height = Math.round(img.height * scale);
-        cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
-        URL.revokeObjectURL(url);
-        resolve(cv.toDataURL('image/jpeg', 0.78));
-      };
-      img.onerror = reject;
-      img.src = url;
-    });
-  }
+          <label class="full"
+            >Ingredients <span class="hint">One per line</span>
+            <textarea
+              name="ingredients"
+              placeholder="2 cups flour&#10;3 eggs&#10;1 tsp salt"
+            ></textarea>
+          </label>
+          <label class="full"
+            >Directions <span class="hint">One step per line</span>
+            <textarea
+              name="steps"
+              placeholder="Preheat oven to 350°F.&#10;Mix dry ingredients…"
+            ></textarea>
+          </label>
+          <label class="full"
+            >Notes / memories<textarea
+              name="notes"
+              style="min-height: 80px"
+              placeholder="Always doubled for Thanksgiving…"
+            ></textarea>
+          </label>
+          <label class="full"
+            >Photo <span class="hint">Optional</span>
+            <input type="file" name="photo" accept="image/*" />
+          </label>
+          <div class="full" id="photoPreview"></div>
+          <label class="inline full"
+            ><input type="checkbox" name="favorite" /> ★ Favorite</label
+          >
+        </div>
+        <div class="dlg-foot">
+          <button type="button" class="btn" data-close>Cancel</button>
+          <button type="submit" class="btn primary">Save recipe</button>
+        </div>
+      </form>
+    </dialog>
 
-  // ---------- events ----------
-  $('#catSelect').innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.icon} ${esc(c.label)}</option>`).join('');
-  $('#holidaySelect').innerHTML = '<option value="">—</option>' + HOLIDAYS.map(h => `<option>${esc(h)}</option>`).join('');
-  $('#catSelect').addEventListener('change', toggleJewishFields);
+    <script>
+      (() => {
+        const STORE_KEY = 'lhcb.recipes.v1';
+        const CATEGORIES = [
+          { id: 'jewish',    label: 'Jewish',     icon: '✡' },
+          { id: 'thanksgiving', label: 'Thanksgiving', icon: '🦃' },
+          { id: 'mains',     label: 'Mains',      icon: '🍲' },
+          { id: 'sides',     label: 'Sides & Salads', icon: '🥗' },
+          { id: 'breads',    label: 'Breads',     icon: '🍞' },
+          { id: 'sauces',    label: 'Sauces',     icon: '🥫' },
+          { id: 'other',     label: 'Other',      icon: '📝' },
+        ];
+        const HOLIDAYS = ['Shabbat', 'Rosh Hashanah', 'Yom Kippur Break-Fast', 'Sukkot', 'Hanukkah',
+                          'Purim', 'Passover', 'Shavuot', 'Everyday'];
 
-  $('#tabs').addEventListener('click', e => {
-    const b = e.target.closest('[data-tab]'); if (!b) return;
-    tab = b.dataset.tab; holidayFilter = ''; render();
-  });
-  $('#jewishBanner').addEventListener('click', e => {
-    const b = e.target.closest('[data-holiday]'); if (!b) return;
-    holidayFilter = b.dataset.holiday; renderBanner(); renderGrid();
-  });
-  $('#grid').addEventListener('click', e => {
-    if (e.target.closest('[data-add]')) return openEdit();
-    const card = e.target.closest('.card'); if (card) openView(card.dataset.id);
-  });
-  ['#search', '#sort', '#favOnly'].forEach(s => $(s).addEventListener('input', renderGrid));
-  $('#addBtn').addEventListener('click', () => openEdit());
+        const SEED_RECIPES = [
+          {
+            id: 'seed-skillet-matzah-brei', favorite: false,
+            title: 'Skillet Matzah Brei', category: 'jewish',
+            holiday: 'Passover', kosher: 'Pareve', passover: true,
+            source: '“Passover Lite” cookbook', time: '', servings: '4',
+            ingredients: 'Cooking spray\n2 tsp. oil\n4 matzahs\n4 egg whites\n1/2 tsp. onion powder, or to taste\n1/4 tsp. salt\n1/8 tsp. black pepper',
+            steps: 'Coat a large nonstick skillet or griddle with cooking spray and add 1/2 tsp. of the oil. Heat the skillet over medium-high heat until very hot.\nMeanwhile, moisten the matzah with cold water and crumble into a bowl. Add the egg whites and seasonings.\nSpoon half the mixture into the hot skillet or griddle as one large pancake and brown.\nWith a wide spatula, lift the matzah and add another 1/2 tsp. of oil. Turn to brown the other side.\nRepeat with remaining mixture and oil.',
+            notes: 'Per serving: Calories 157; Saturated fat 0 g; Total fat 2 g; Carbohydrates 27 g; Cholesterol 0 mg; Sodium 202 mg.\n\nFrom “Passover Lite” (printed from Jewish.com).',
+            photo: '',
+          },
+          {
+            id: 'seed-coconut-macaroons', favorite: false,
+            title: 'Coconut Macaroons', category: 'jewish',
+            holiday: 'Passover', kosher: 'Dairy', passover: false,
+            source: 'Jennifer Segal, Once Upon a Chef', time: '45 min (20 prep + 25 cook)', servings: '26 macaroons',
+            ingredients: [
+              '5-1/3 cups (one 14-oz bag) sweetened shredded coconut (such as Baker’s Angel Flake)',
+              '7/8 cup sweetened condensed milk (not evaporated milk; see note)',
+              '1 tsp vanilla extract',
+              '2 large egg whites',
+              '1/4 tsp salt',
+              '4 oz semi-sweet chocolate, best quality such as Ghirardelli, chopped (optional)',
+            ].join('\n'),
+            steps: [
+              'Preheat the oven to 325°F. Set two oven racks near the center of the oven. Line two baking sheets with parchment paper.',
+              'In a medium bowl, mix together the shredded coconut, sweetened condensed milk and vanilla extract. Set aside.',
+              'In the bowl of an electric mixer, beat the egg whites and salt until stiff peaks form. Use a large rubber spatula to fold the egg whites into the coconut mixture.',
+              'Using two spoons, form heaping tablespoons of the mixture into mounds on the prepared baking sheets, spacing about 1 inch apart. Bake for 23 to 25 minutes, rotating the pans from top to bottom and front to back, until the tops and edges are golden. Let cool on the pans for a few minutes, then transfer to a wire rack to cool completely.',
+              'If dipping the macaroons in chocolate, melt the chocolate in a microwave-safe bowl at medium power, stopping and stirring at 30-second intervals, until just smooth and creamy. (Alternatively, melt the chocolate in a double boiler over simmering water.) Dip the bottoms of the macaroons in the chocolate, letting any excess drip back into the bowl, and return to the lined baking sheets. Refrigerate for about 10 minutes to allow the chocolate to set.',
+              'The cookies keep well in an airtight container at room temperature for about a week.',
+            ].join('\n'),
+            notes: 'Note: 7/8 cup = 3/4 cup plus 2 tablespoons.',
+            photo: 'photos/macaroons.jpg',
+          },
+          {
+            id: 'seed-gefilte-fish-loaves', favorite: false,
+            title: 'Gefilte Fish (from Frozen Loaves)', category: 'jewish',
+            holiday: 'Passover', kosher: 'Pareve', passover: false,
+            source: 'Handwritten (Lubavitch)', time: 'About 1 hr 45 min', servings: '2 loaves',
+            ingredients: [
+              '2 frozen ready-to-cook gefilte fish loaves',
+              '6 carrots',
+              '1 parsnip',
+              '2 medium onions',
+              '5–6 cups water',
+              'Pepper',
+              'A little salt',
+            ].join('\n'),
+            steps: [
+              'Peel the carrots, parsnip and onions and cut in chunks or slices.',
+              'Put all the vegetables in a 5-quart Dutch oven with 5 cups water (5–6 cups for 2 loaves).',
+              'Unwrap the fish (keep the parchment on) and rinse under cold water. Put in the pot, cover, and cook over medium heat about 10 minutes.',
+              'Take a fork and remove the parchment paper.',
+              'Add pepper and a little salt. Simmer, covered, for 1 1/2 hours.',
+            ].join('\n'),
+            notes: 'Written at the top of the page: “JCC – Boulder, Tues 3:30–5:30” and “$8.75 – matza”.',
+            photo: '',
+          },
+          {
+            id: 'seed-kale-brussels-salad', favorite: false,
+            title: 'Kale and Brussels Sprouts Salad with Butternut Squash, Pomegranate, and Candied Pecans', category: 'thanksgiving',
+            source: 'Two Peas & Their Pod', time: '45 min (15 prep + 30 cook)', servings: '6',
+            ingredients: [
+              'For the salad:',
+              '1 small butternut squash, peeled, seeds removed, and chopped into 1/2-inch cubes',
+              '1 tbsp olive oil',
+              'Pinch of sea salt',
+              '1 small bunch Lacinato kale (Dino or Tuscan kale), finely chopped',
+              '1 lb brussels sprouts, finely chopped',
+              '1 cup pomegranate seeds (from one large pomegranate)',
+              '1/2 cup candied pecans (see Candied Pecans recipe)',
+              '1/3 cup shredded Parmesan cheese',
+              'For the dressing:',
+              '1/4 cup olive oil',
+              '2 tbsp apple cider vinegar',
+              '1 tsp Dijon mustard',
+              '1 small clove garlic, minced',
+              '2 tsp shallot, minced',
+              'Salt and black pepper, to taste',
+            ].join('\n'),
+            steps: [
+              'Preheat the oven to 400°F. Place the butternut squash on a large baking sheet. Drizzle with olive oil and toss. Season with salt and black pepper, to taste. Roast the squash for 25–30 minutes, stirring once, or until the squash is tender. Remove from the oven and set aside.',
+              'Place the kale in a large bowl and sprinkle with sea salt. Massage the leaves for 2–3 minutes, or until they soften and start to wilt. Stir in the chopped brussels sprouts, butternut squash, pomegranate seeds, candied pecans, and Parmesan cheese.',
+              'To make the dressing, whisk together the olive oil, apple cider vinegar, mustard, garlic, and shallot. Season with salt and black pepper, to taste.',
+              'Pour the dressing over the salad and toss well. Serve!',
+            ].join('\n'),
+            notes: 'This gorgeous salad is perfect for all of your holiday meals!',
+            photo: 'photos/kale.jpg',
+          },
+          {
+            id: 'seed-candied-pecans', favorite: false,
+            title: 'Candied Pecans', category: 'thanksgiving',
+            source: 'Two Peas & Their Pod (twopeasandtheirpod.com/candied-pecans)', time: '55 min (10 prep + 40–45 cook)', servings: '4 cups',
+            ingredients: [
+              '1/2 cup granulated sugar',
+              '1/2 cup light brown sugar',
+              '1 tbsp ground cinnamon',
+              '1 tsp salt',
+              '16 oz (about 4 cups) unsalted pecan halves',
+              '1 egg white',
+              '1/2 tsp vanilla extract',
+              '1 tsp water',
+            ].join('\n'),
+            steps: [
+              'Preheat oven to 300°F. Line a large baking sheet with a Silpat baking mat or parchment paper and set aside.',
+              'In a medium bowl, add sugars, cinnamon, and salt. Whisk until combined. Set aside.',
+              'In a large bowl, whisk the egg white, vanilla, and water together until frothy. Add the pecans and gently toss until the pecans are well coated. Add the sugar and cinnamon mixture and toss until pecans are covered.',
+              'Spread the pecans out in a single layer on the prepared baking sheet. Bake for about 40–45 minutes, stirring every 15 minutes. The sugar mixture will harden on the pecans.',
+              'Remove from the oven and let the pecans cool on the baking sheet. When completely cool, store in an airtight container for up to 1 month.',
+            ].join('\n'),
+            notes: 'A great topping for salads, main dishes, and desserts — and for the Kale and Brussels Sprouts Salad. Also good by the handful and a great holiday gift!',
+            photo: 'photos/pecans.jpg',
+          },
+          {
+            id: 'seed-honey-rosemary-sweet-potatoes', favorite: false,
+            title: 'Honey and Rosemary Sweet Potatoes', category: 'thanksgiving',
+            source: 'Allrecipes (recipe by Coco)', time: '1 hr 15 min (15 prep + 1 hr cook)', servings: '',
+            ingredients: [
+              '2 tbsp olive oil',
+              '1/4 cup honey',
+              '2 tbsp chopped fresh rosemary',
+              '1 tsp salt',
+              '1 tsp freshly ground black pepper',
+              '3 large sweet potatoes, peeled and cut in 1-inch cubes',
+            ].join('\n'),
+            steps: [
+              'Preheat oven to 350°F (175°C). Line a baking sheet with foil or parchment paper.',
+              'Mix the olive oil, honey, rosemary, salt, and black pepper together in a large bowl, and stir the sweet potato cubes in the mixture to coat. Remove sweet potato cubes with a slotted spoon, and arrange in a single layer on the prepared baking sheet.',
+              'Bake in the preheated oven until tender, about 45 minutes. Turn oven heat up to 450°F (230°C) and bake until browned, another 15 minutes.',
+            ].join('\n'),
+            notes: '“Baked until chewy on the outside and soft on the inside, these are a perfect balance of salty and sweet. The rosemary makes them addictive.”\n\nPrinted from Allrecipes.com, 11/24/2015.',
+            photo: 'photos/sweetpotato.jpg',
+          },
+          {
+            id: 'seed-leftover-turkey-pho', favorite: false,
+            title: 'Leftover Roast Turkey Pho', category: 'thanksgiving',
+            source: 'Food Network Kitchen', time: '2 hr (20 min prep + 1 hr 40 min cook)', servings: '6',
+            ingredients: [
+              'Broth:',
+              '1 leftover turkey carcass, including any leg bones and reserved turkey parts (such as the neck, wings, etc.), plus 1 lb leftover turkey meat (about 4 cups), shredded into large bite-size pieces',
+              '3 large yellow onions, halved',
+              'One 6-inch piece fresh ginger root, halved lengthwise',
+              '1 head garlic, halved crosswise',
+              '3 tbsp vegetable oil',
+              'Kosher salt',
+              '4 star anise pods',
+              '3 tbsp whole black peppercorns',
+              '2 cinnamon sticks',
+              '12 cups low-sodium chicken broth',
+              '1/4 to 1/3 cup fish sauce',
+              'Soup:',
+              '1 lb flat rice noodles',
+              '4 cups fresh bean sprouts',
+              '1 large bunch Thai basil',
+              '2 jalapeño peppers, thinly sliced',
+              '1 large red onion, halved and thinly sliced',
+              'Hoisin sauce and/or sriracha, for serving',
+              'Lime wedges, for serving',
+            ].join('\n'),
+            steps: [
+              'For the broth: Position a rack in the upper third of the oven and preheat to 450°F. Toss the turkey bones and parts, onions, ginger and garlic with the vegetable oil in a large bowl. Lightly sprinkle with salt and transfer to a rimmed baking sheet, spreading everything out into a somewhat even layer (it is okay if some items slightly overlap). Roast, turning the bones and vegetables halfway through, until the vegetables are slightly charred, about 30 minutes.',
+              'Meanwhile, add the star anise pods, peppercorns and cinnamon sticks to a large pot. Set over medium heat and toast until very fragrant, shaking the pot occasionally, about 5 minutes. Turn off the heat and add the chicken broth, fish sauce (according to taste), and 8 cups of water.',
+              'Add the roasted turkey bones and vegetables to the pot, scraping any browned bits off the baking sheet and adding them in as well. Bring to a boil over high heat, then reduce the heat to medium-low and gently simmer for 1 hour. Remove from the heat and strain the broth through a fine-mesh sieve into another large pot. (The broth can be made to this point up to 2 days in advance; let cool, then refrigerate in a covered container.) Stir the shredded turkey meat into the hot broth.',
+              'For the soup: Cook the noodles according to the package instructions. Divide the noodles among 6 bowls, then top with the broth and shredded meat. Serve with the bean sprouts, Thai basil, jalapeños, red onion, hoisin sauce, sriracha and a lime wedge on the side so guests can top their pho as they like.',
+            ].join('\n'),
+            notes: 'Reinvent your Thanksgiving turkey into a bowl of intensely flavorful Vietnamese pho. Store-bought chicken broth is fortified with turkey bones, charred vegetables and toasted spices for a rich broth that goes from stovetop to table in less than two hours.',
+            photo: 'photos/pho.jpg',
+          },
+          {
+            id: 'seed-hot-pot-sauces', favorite: false,
+            title: 'Hot Pot Sauces (5 Flavors)', category: 'sauces',
+            source: 'ChihYu Smith, I Heart Umami (iheartumami.com/hotpot-sauces)', time: '5 min', servings: 'Each sauce serves 1',
+            ingredients: [
+              'Taiwanese Shacha Hotpot Sauce:',
+              '1 oz garlic clove, crushed or grated',
+              '4 tbsp shacha sauce (use 1.5 tbsp if store-bought)',
+              '1 tbsp soy sauce or coconut aminos',
+              '1 tbsp rice vinegar',
+              '1 tbsp aged balsamic vinegar',
+              '2 bulbs scallion, chopped',
+              '2 tsp toasted sesame oil',
+              '4 tsp chopped Thai red chili peppers (optional)',
+              'Garlic Sesame Sauce:',
+              '4 tbsp Chinese sesame paste or 1.5 tbsp tahini',
+              '2 tbsp cashew butter',
+              '1 tbsp soy sauce or coconut aminos',
+              '2 tbsp rice vinegar',
+              '0.6 oz garlic clove, crushed or grated',
+              '2.8 tsp Takii shiitake mushroom seasoning (optional)',
+              '2–4 tbsp water, or more for a thinner sauce',
+              'Chinese Spicy Chili Garlic Hotpot Sauce:',
+              '4 tbsp chili garlic sauce, or your preferred store-bought version',
+              '2 tbsp aged balsamic vinegar or Chinese black vinegar',
+              '2 tsp toasted sesame oil',
+              '1 tbsp rice vinegar',
+              '2 bulbs scallion, chopped',
+              '2 tsp toasted white sesame seeds',
+              '0.5 tsp Sichuan peppercorn powder (optional)',
+              '2 tbsp vegetarian oyster sauce or store-bought (optional)',
+              'Japanese Sesame Miso Sauce:',
+              '2 tbsp white miso paste or chickpea miso',
+              '1 tbsp toasted sesame oil',
+              '2 tbsp rice vinegar',
+              '4 tbsp Chinese sesame paste or 1.5 tbsp tahini',
+              '1 tbsp soy sauce or coconut aminos',
+              '2 tsp toasted white sesame seeds',
+              '4–5 tbsp water, or more to thin the sauce',
+              'Spicy “Peanut” Sauce:',
+              '4 tbsp unsalted peanut butter or almond butter',
+              '2 tbsp soy sauce or coconut aminos',
+              '1 tbsp toasted sesame oil',
+              '2 tbsp rice vinegar',
+              '4 tbsp water, or more to thin the sauce',
+              '2 tbsp garlic chili sauce (optional), or your preferred store-bought version',
+              '4 tsp chopped cilantro (optional)',
+            ].join('\n'),
+            steps: [
+              'Pick a flavor profile (or more) you like to use for your hotpot.',
+              'Gather all the ingredients and mix them in a dipping sauce bowl — that’s it!',
+            ].join('\n'),
+            notes: [
+              'Hotpot sauces with 5 different flavors for hot pot dipping — from Chinese steamboat to Japanese shabu.',
+              '',
+              '• Each recipe is for 1 person, so you can easily scale up for more.',
+              '• If you can’t find Chinese sesame paste, use a blend of unsweetened peanut butter with tahini.',
+              '• Use store-bought shacha sauce if you want to make the sauce faster.',
+              '• Aged balsamic vinegar tastes naturally sweeter with a thicker consistency. You can also use a small amount of regular balsamic vinegar.',
+              '• Miso paste: if you prefer soy-free, use chickpea miso paste.',
+              '• Store the sauce in an airtight glass container in the fridge and use within one week. If it becomes too thick, add 1–2 tbsp of water.',
+              '',
+              'Nutrition (per serving): 195 kcal; Carbs 13 g; Protein 5 g; Fat 18 g; Saturated fat 4 g; Sodium 575 mg; Fiber 2 g; Sugar 3 g.',
+            ].join('\n'),
+            photo: 'photos/hotpot.jpg',
+          },
+          {
+            id: 'seed-lemon-garlic-kale-salad', favorite: false,
+            title: 'Lemon-Garlic Kale Salad', category: 'sides',
+            source: 'Julia Moskin, NYT Cooking', time: 'About 25 min', servings: '8 to 12',
+            ingredients: [
+              '2 cups sliced almonds',
+              '1/3 cup freshly squeezed lemon juice (from 2 to 4 lemons)',
+              'Kosher salt',
+              '1 1/2 cups extra-virgin olive oil',
+              '4 cloves garlic, crushed with the flat side of a knife, peeled and left whole',
+              '10 to 12 oz washed and dried kale leaves, thick stems removed (weight after trimming)',
+              '1 1/2 cups freshly grated Parmesan (optional)',
+            ].join('\n'),
+            steps: [
+              'In a toaster oven or skillet, toast almonds until golden brown and fragrant. Set aside to cool.',
+              'In a bowl, combine lemon juice and 1 heaping teaspoon salt. Slowly whisk in olive oil. Add garlic cloves and set aside to steep.',
+              'Working in batches, cut the kale into thin ribbons: gather a large handful of leaves, bunch together tightly, and use the other hand to slice into 1/4-inch-thick pieces. This need not be done very precisely or neatly; the idea is to end up with a kind of slaw. (Recipe can be made up to this point 1 day ahead. Keep kale and dressing refrigerated separately.)',
+              'Place chopped kale in a very large bowl. Sprinkle surface with almonds and then with cheese, if using. Remove and discard garlic cloves from dressing. Pour half the dressing over the salad and toss. Taste for dressing and salt and add more as needed, tossing to coat thoroughly. Serve within 1 hour.',
+            ].join('\n'),
+            notes: 'A snappy, fresh side dish or a light supper: a lemony green salad, rich with tang and crunch. The dressing is nothing more than lemon juice, olive oil, garlic and salt. Its simplicity makes it perfect.',
+            photo: '',
+          },
+          {
+            id: 'seed-spanish-rice', favorite: false,
+            title: 'Spanish Rice', category: 'sides',
+            source: 'Lil’ Luna', time: '45 min (5 prep + 40 cook)', servings: '8',
+            ingredients: [
+              '2 cups long grain rice',
+              '1/8 cup oil',
+              '8 oz tomato sauce',
+              '6 stems cilantro (optional)',
+              '1 tsp salt',
+              '1 tsp minced garlic',
+              '4 cups water (or 4 cups lower-sodium chicken broth — and no bouillon)',
+              '1 cube chicken-flavored bouillon',
+              'Dash cumin',
+              'Dash garlic pepper',
+            ].join('\n'),
+            steps: [
+              'Heat oil in a large frying pan on medium heat.',
+              'Add rice and cook until golden brown.',
+              'Add 1 chicken-flavored bouillon cube to 4 cups water and microwave for 3 minutes.',
+              'When rice is brown, add water, tomato sauce, salt, garlic, cumin and garlic pepper to pan.',
+              'Stir and cover pan. Let simmer for 30–40 minutes or until all is cooked and there is no liquid left. Fluff before serving and ENJOY.',
+            ].join('\n'),
+            notes: 'Restaurant-style Spanish rice (aka Mexican rice) — easy to make, tastes like it came straight from the restaurant, and is the best side dish to any Mexican entrée.\n\nNutrition (per serving): 90 kcal; Carbs 13 g; Protein 1 g; Fat 4 g; Saturated fat 1 g; Sodium 447 mg; Potassium 108 mg; Fiber 1 g; Sugar 1 g.',
+            photo: '',
+          },
+          {
+            id: 'seed-red-curry-shrimp', favorite: false,
+            title: 'Red Curry Shrimp & Vegetables', category: 'mains',
+            source: 'Thai Kitchen (package recipe)', time: '', servings: '4',
+            ingredients: [
+              '1 can (13.66 fl oz) coconut milk',
+              '2 tbsp red curry paste',
+              '1 tbsp brown sugar',
+              '1 lb large shrimp, peeled and deveined',
+              '1 cup assorted vegetables, such as snap peas, bamboo shoots and sliced red bell pepper',
+              '1/4 cup fresh Thai basil (optional)',
+              '2 tbsp fish sauce',
+              'Fresh red chiles, thinly sliced (optional)',
+            ].join('\n'),
+            steps: [
+              'Bring coconut milk to a simmer in a large skillet on medium heat. Stir in curry paste and sugar until well blended; bring to a boil. Reduce heat to low; simmer 5 minutes.',
+              'Stir in shrimp and vegetables. Cook 3 to 5 minutes or just until shrimp turn pink and vegetables are tender-crisp. Stir in basil and fish sauce.',
+              'Serve with cooked jasmine rice. Garnish with additional basil and red chile slices, if desired.',
+            ].join('\n'),
+            notes: 'From the Thai Kitchen coconut milk label (uses Thai Kitchen coconut milk, red curry paste and fish sauce).',
+            photo: 'photos/curry.jpg',
+          },
+          {
+            id: 'seed-spanish-meatballs', favorite: false,
+            title: 'Spanish Meatballs', category: 'mains',
+            source: 'Marissa Stevens (adapted from The New Spanish Table)', time: '1 hr 30 min (30 prep + 1 hr cook)', servings: '8',
+            ingredients: [
+              '2/3 cup panko breadcrumbs',
+              '2 tbsp milk',
+              '1/4 cup finely chopped white onion (you’ll need more white onion for the sauce)',
+              '1 lb ground pork',
+              '1/2 lb ground beef',
+              '2 eggs, lightly beaten',
+              '1 1/4 tsp kosher salt, plus more for the sauce',
+              '1 tsp freshly ground black pepper',
+              'Pinch ground nutmeg, or 2 to 3 gratings of fresh nutmeg',
+              '2 tbsp minced fresh parsley, plus more for garnish',
+              '3 tbsp olive oil, divided',
+              '1 small white onion, finely chopped',
+              '1 medium carrot, peeled and diced',
+              '3/4 tsp sweet paprika (not smoked)',
+              '14 1/2 oz can diced tomatoes, chopped and drained, reserving 1/4 cup of juice',
+              '3 tbsp brandy',
+              '1 cup dry red wine',
+              '1 1/4 cups chicken stock or broth, or more as needed',
+              'All-purpose flour, for dusting the meatballs',
+            ].join('\n'),
+            steps: [
+              'Add breadcrumbs, milk, and finely chopped onion to a large bowl; stir until well combined and let stand 5 minutes.',
+              'To the breadcrumb mixture, add pork, beef, eggs, salt, pepper, nutmeg and parsley. Knead mixture gently until thoroughly combined (do not overwork or your meatballs will be tough). Cover and refrigerate while you make the sauce (about 40 minutes).',
+              'Meanwhile, in a medium saucepan heat 1 tablespoon of the olive oil over medium heat until hot. Add onion and carrot; cook and stir until softened and starting to brown, 5–7 minutes. Add paprika, tomatoes plus 1/4 cup of their juice, and brandy. Increase heat to high; cook and stir 1 minute, or until reduced slightly. Stir in wine and chicken stock and bring to a boil; reduce heat to medium-low. Partially cover and simmer 30 minutes, stirring occasionally. Season with salt to taste.',
+              'Purée half of the sauce in a standard blender and return to saucepan, or purée half of the sauce right in the saucepan with an immersion blender. Place over low heat to keep warm while you prepare the meatballs. (Add chicken stock as needed if sauce is getting too thick.)',
+              'To make the meatballs, spread a thin layer of flour on a large plate and set a parchment-lined rimmed baking sheet nearby. Use a teaspoon or 1-tablespoon scoop to portion meatball mixture into about 1 1/4-inch diameter ragged portions and place side by side on the baking sheet. Gently roll each ragged portion between cupped hands into a ball, returning meatballs to the baking sheet as you go. Then gently roll each meatball in flour, shaking off any excess, and return to the baking sheet.',
+              'Heat 1 tablespoon of the olive oil in a large non-stick skillet over medium-high heat. Add half of the meatballs and brown on all sides, 3 to 5 minutes. Transfer browned meatballs to a bowl. Repeat with remaining olive oil and meatballs.',
+              'Add 1/3 cup water to the empty skillet; cook and stir, scraping up any brown bits, and add to sauce.',
+              'Add browned meatballs and any accumulated liquid to the sauce and gently stir to combine; bring to a simmer. Reduce heat to low and cover; simmer 5 to 7 minutes to cook meatballs through completely. Remove from heat to cool slightly, about 5 minutes. Transfer meatballs and sauce to a cazuela or other shallow serving bowl and garnish with fresh parsley. Serve.',
+            ].join('\n'),
+            notes: 'Saucy, rich, melt-in-your-mouth meatballs just like those you’ll find in Madrid tapas bars. Great for a dinner party.\n\nAbout 376 kcal per serving.',
+            photo: 'photos/meatballs.jpg',
+          },
+          {
+            id: 'seed-easy-peesy-french-bread', favorite: false,
+            title: 'Easy Peesy French Bread', category: 'breads',
+            source: 'Julie, My Mundane and Miraculous Life', time: 'About 1 hr', servings: '1 loaf',
+            ingredients: [
+              '1 1/2 cups warm water',
+              '1 tbsp honey',
+              '1 1/2 tsp salt',
+              '1 tbsp active dry yeast',
+              '3 1/2 – 4 1/2 cups flour',
+            ].join('\n'),
+            steps: [
+              'Combine the water, honey, salt and yeast in a glass bowl. Let sit for 5–10 minutes, until there’s some bubbling, foamy stuff on the top.',
+              'Next, add a bunch of flour (regular white organic flour works). Keep kneading until it is no longer sticky — you want your dough to be sticking to itself, not your fingers. So keep adding flour and keep kneading until that happens.',
+              'Form the dough into a loaf shape. Cover with a towel and let sit on the counter for 20 minutes (or on top of the preheating oven if your kitchen is cold). This is the time to set the oven to 400°F.',
+              'After 20 minutes, cut slits in the top of the dough and bake for 16–20 minutes.',
+            ].join('\n'),
+            notes: 'The easiest, quickest way to have yummy fresh bread. If I can do this, YOU CAN DO THIS!\n\nVariations: add garlic and oregano, or cinnamon and raisins, or whatever you dream up!\n\nmymundaneandmiraculouslife.com/foodie-fridays-easy-peesy-french-bread',
+            photo: '',
+          },
+          {
+            id: 'seed-lemon-couscous-pearls', favorite: false,
+            title: 'Lemon Infused Couscous Pearls', category: 'sides',
+            source: 'Girl and the Kitchen (girlandthekitchen.com)', time: 'About 20 min', servings: '',
+            ingredients: [
+              '1 cup Israeli couscous',
+              '1 tbsp butter',
+              '1 small shallot, finely diced',
+              'Zest of half a lemon (plus more for garnish)',
+              '1 1/4 cups chicken stock or water',
+              '1/4 cup Parmesan, shredded (plus more for garnish)',
+              '1 tbsp parsley, finely chopped, as a garnish',
+            ].join('\n'),
+            steps: [
+              'Heat a small pot with a tablespoon of butter, the shallot and the zest of half a lemon.',
+              'Over medium heat, melt the butter and let it get infused with the flavors of the shallot and lemon zest. Give this about 3 minutes — you are sweating the aromatics, not browning them.',
+              'Add the cup of Israeli couscous and toss everything together, making sure the couscous is coated in the shallot and butter mixture. Essentially you are toasting them a bit. Do this for about 2 minutes.',
+              'Pour in 1 1/4 cups of chicken broth, stock or water (chicken stock gives it a more savory flavor). Season with salt and pepper. Bring to a simmer and cook, covered, for 10 minutes.',
+              'Fluff with a fork for light, fluffy individual grains. Sprinkle in 1/4 cup Parmesan cheese and mix with a fork. Taste for seasoning.',
+              'Serve in a bowl with more lemon zest, chopped parsley and a nice shredding of Parmesan on top.',
+            ].join('\n'),
+            notes: 'girlandthekitchen.com/lemon-infused-israeli-couscous-recipe',
+            photo: 'photos/couscous.jpg',
+          },
+          {
+            id: 'seed-chicken-enchiladas', favorite: false,
+            title: 'Chicken Enchiladas', category: 'mains',
+            source: '', time: '1 hr (15 prep + 45 cook)', servings: '8',
+            ingredients: [
+              '2 tbsp avocado oil (or olive oil)',
+              '1 small white onion, peeled and diced',
+              '1 1/2 lb boneless skinless chicken breasts, diced into small 1/2-inch pieces',
+              '1 (4-oz) can diced green chiles',
+              'Sea salt and freshly cracked black pepper',
+              '1 (15-oz) can black beans, rinsed and drained',
+              '8 large flour tortillas',
+              '3 cups Mexican-blend shredded cheese',
+              '1 batch red enchilada sauce',
+              'Optional toppings: fresh cilantro, chopped red onion, diced avocado, sour cream, and/or crumbled cotija cheese',
+            ].join('\n'),
+            steps: [
+              'Prep oven and enchilada sauce: Preheat oven to 350°F. Prepare your enchilada sauce.',
+              'Sauté the filling: In a large sauté pan, heat oil over medium-high heat. Add onion and sauté for 3 minutes, stirring occasionally. Add diced chicken and green chiles, and season with a generous pinch of salt and pepper. Sauté for 6–8 minutes, stirring occasionally, or until the chicken is cooked through. Add the beans and stir until evenly combined. Remove pan from heat and set aside.',
+              'Assemble the enchiladas: Set up an assembly line of tortillas, enchilada sauce, chicken mixture, and cheese. Lay out a tortilla and spread two tablespoons of sauce over the surface. Add a generous spoonful of the chicken mixture in a line down the center, then sprinkle with 1/3 cup cheese. Roll up the tortilla and place in a greased 9 x 13-inch baking dish. Assemble the remaining enchiladas. Spread any remaining sauce evenly over the top, followed by any extra cheese.',
+              'Bake uncovered for 20 minutes, until the enchiladas are cooked through and the tortillas are slightly crispy on the outside. Transfer the baking dish to a wire rack.',
+              'Serve immediately while they’re nice and hot and melty, garnished with lots of fresh toppings. Enjoy!',
+            ].join('\n'),
+            notes: 'My all-time favorite chicken enchilada recipe!\n\nStorage: Leftover (cooked) enchiladas can be refrigerated in a sealed container for up to 3 days or frozen for up to 3 months.\n\nMake ahead: Follow the recipe through step 3 (assembling). Wrap the pan tightly with foil. Refrigerate up to 3 days, then bake as directed — or freeze up to 3 months, thaw in the refrigerator for 24 hours, then bake as directed.',
+            photo: 'photos/enchiladas.jpg',
+          },
+          {
+            id: 'seed-cuban-black-beans', favorite: false,
+            title: 'Quick and Delicioso Cuban Style Black Beans', category: 'sides',
+            source: 'Skinnytaste', time: '30 min', servings: '4',
+            ingredients: [
+              '2 tsp olive oil',
+              '1/2 onion',
+              '2 cloves garlic',
+              '2 scallions',
+              '2 tbsp red bell pepper',
+              '3 tbsp cilantro',
+              '15 oz can black beans, do not drain (Goya preferred)',
+              '1/2 cup water (or more if needed)',
+              '1 bay leaf',
+              'Few pinches cumin (to taste)',
+              'Pinch oregano',
+              '1 tsp red wine vinegar',
+              'Salt and black pepper, to taste',
+            ].join('\n'),
+            steps: [
+              'Chop onion, garlic, scallions, red pepper, and cilantro in a mini chopper or food processor.',
+              'Add oil to a medium-sized pot on medium heat.',
+              'Add vegetables to the pot and sauté until soft, about 3 minutes.',
+              'Add beans, water, bay leaf, cumin, oregano, red wine vinegar, salt and black pepper and bring to a boil.',
+              'Lower heat and cover; simmer about 15 minutes, stirring occasionally (adjust water as needed).',
+              'Taste for salt and serve.',
+            ].join('\n'),
+            notes: 'Cuban-inspired black beans loaded with mucho sabor (lots of flavor)! Low fat, super high in fiber, vegan, gluten free, inexpensive and delicioso.\n\nPer 1/2-cup serving: 114 kcal; Carbs 20 g; Protein 7 g; Fat 3 g; Fiber 6 g.',
+            photo: 'photos/blackbeans.jpg',
+          },
+        ];
 
-  document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => b.closest('dialog').close()));
-  document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+        const $ = s => document.querySelector(s);
+        const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+        const lines = s => String(s || '').split('\n').map(l => l.trim()).filter(Boolean);
+        const catOf = id => CATEGORIES.find(c => c.id === id) || CATEGORIES.at(-1);
 
-  $('#vBody').addEventListener('click', e => { const li = e.target.closest('.ing li'); if (li) li.classList.toggle('done'); });
-  $('#vEdit').addEventListener('click', () => { $('#viewDlg').close(); openEdit(viewingId); });
-  $('#vPrint').addEventListener('click', () => window.print());
-  $('#vFav').addEventListener('click', () => {
-    const r = recipes.find(x => x.id === viewingId); if (!r) return;
-    r.favorite = !r.favorite; save(); render();
-    $('#vFav').textContent = r.favorite ? '★ Favorited' : '☆ Favorite';
-  });
-  $('#vDelete').addEventListener('click', () => {
-    const r = recipes.find(x => x.id === viewingId); if (!r) return;
-    if (!confirm(`Delete “${r.title}”? This can't be undone.`)) return;
-    recipes = recipes.filter(x => x.id !== viewingId); save();
-    $('#viewDlg').close(); render();
-  });
+        // ---------- storage ----------
+        const SEEDED_KEY = 'lhcb.seeded.v1';
+        let recipes = load();
+        function load() {
+          let list = [];
+          try {
+            const raw = localStorage.getItem(STORE_KEY);
+            if (raw) list = JSON.parse(raw);
+          } catch (e) { console.warn(e); }
+          // Remove the old placeholder sample recipe.
+          list = list.filter(r => !String(r.title || '').startsWith('Classic Challah (sample'));
+          // Hot Pot Sauces moved from Other to the new Sauces tab.
+          list.forEach(r => { if (r.id === 'seed-hot-pot-sauces' && r.category === 'other') r.category = 'sauces'; });
+          // Give built-in recipes their printout photos once (if they don't already have one).
+          let photoed = false;
+          try { photoed = localStorage.getItem('lhcb.seedphotos.v2') === '1'; } catch {}
+          if (!photoed) {
+            for (const s of SEED_RECIPES) {
+              const r = list.find(r => r.id === s.id);
+              if (r && !r.photo && s.photo) r.photo = s.photo;
+            }
+            try { localStorage.setItem('lhcb.seedphotos.v2', '1'); } catch {}
+          }
+          // Add built-in recipes once (so deleting one later won't bring it back).
+          let seeded = [];
+          try { seeded = JSON.parse(localStorage.getItem(SEEDED_KEY) || '[]'); } catch {}
+          for (const s of SEED_RECIPES) {
+            if (!seeded.includes(s.id) && !list.some(r => r.id === s.id)) list.push({ ...s, created: Date.now() });
+            if (!seeded.includes(s.id)) seeded.push(s.id);
+          }
+          try {
+            localStorage.setItem(STORE_KEY, JSON.stringify(list));
+            localStorage.setItem(SEEDED_KEY, JSON.stringify(seeded));
+          } catch (e) { console.warn(e); }
+          return list;
+        }
+        function save() {
+          try { localStorage.setItem(STORE_KEY, JSON.stringify(recipes)); return true; }
+          catch (e) {
+            alert('Could not save — your browser storage may be full (photos take up the most space). Try a smaller photo.');
+            return false;
+          }
+        }
 
-  $('#form').elements.photo.addEventListener('change', async e => {
-    const file = e.target.files[0]; if (!file) return;
-    try { pendingPhoto = await resizeImage(file); showPhotoPreview(pendingPhoto); }
-    catch { alert('Sorry, that image could not be read.'); }
-  });
-  $('#photoPreview').addEventListener('click', e => {
-    if (e.target.id === 'removePhoto') { pendingPhoto = ''; $('#form').elements.photo.value = ''; showPhotoPreview(''); }
-  });
+        // ---------- state ----------
+        let tab = 'all';
+        let holidayFilter = '';
+        let editingId = null;
+        let viewingId = null;
+        let pendingPhoto = null; // undefined = unchanged, '' = removed, dataURL = new
 
-  $('#form').addEventListener('submit', e => {
-    e.preventDefault();
-    const f = e.target.elements;
-    const existing = editingId ? recipes.find(x => x.id === editingId) : null;
-    const isJewish = f.category.value === 'jewish';
-    const r = {
-      id: existing?.id || crypto.randomUUID(),
-      created: existing?.created || Date.now(),
-      title: f.title.value.trim(),
-      category: f.category.value,
-      source: f.source.value.trim(),
-      time: f.time.value.trim(),
-      servings: f.servings.value.trim(),
-      holiday: isJewish ? f.holiday.value : '',
-      kosher: isJewish ? f.kosher.value : '',
-      passover: isJewish && f.passover.checked,
-      ingredients: f.ingredients.value,
-      steps: f.steps.value,
-      notes: f.notes.value,
-      favorite: f.favorite.checked,
-      photo: pendingPhoto === undefined ? (existing?.photo || '') : pendingPhoto,
-    };
-    if (!r.title) return;
-    const before = recipes;
-    recipes = existing ? recipes.map(x => x.id === r.id ? r : x) : [...recipes, r];
-    if (!save()) { recipes = before; return; }
-    $('#editDlg').close();
-    render();
-  });
+        // ---------- render ----------
+        function renderTabs() {
+          const counts = Object.fromEntries(CATEGORIES.map(c => [c.id, 0]));
+          recipes.forEach(r => counts[catOf(r.category).id]++);
+          const tabs = [{ id: 'all', label: 'All Recipes', icon: '📖' }, ...CATEGORIES];
+          $('#tabs').innerHTML = tabs.map(t => {
+            const n = t.id === 'all' ? recipes.length : counts[t.id];
+            return `<button class="tab ${t.id === tab ? 'active' : ''} ${t.id === 'jewish' ? 'jewish' : ''}" data-tab="${t.id}" role="tab" aria-selected="${t.id === tab}">
+              ${t.icon} ${esc(t.label)}<span class="count">${n}</span></button>`;
+          }).join('');
+        }
 
-  render();
-})();
-</script>
-</body>
+        function renderBanner() {
+          const el = $('#jewishBanner');
+          if (tab !== 'jewish') { el.innerHTML = ''; return; }
+          const used = new Set(recipes.filter(r => r.category === 'jewish').map(r => r.holiday).filter(Boolean));
+          const opts = HOLIDAYS.filter(h => used.has(h));
+          el.innerHTML = `<div class="jewish-banner">
+            <span class="star">✡</span>
+            <div style="flex:1 1 200px"><strong>Jewish Recipes</strong><br><span class="hint">Holiday dishes, Shabbat favorites and family traditions.</span></div>
+            ${opts.length ? `<div class="chips">
+              <button class="chip ${holidayFilter === '' ? 'active' : ''}" data-holiday="">All holidays</button>
+              ${opts.map(h => `<button class="chip ${holidayFilter === h ? 'active' : ''}" data-holiday="${esc(h)}">${esc(h)}</button>`).join('')}
+            </div>` : ''}
+          </div>`;
+        }
+
+        function filtered() {
+          const q = $('#search').value.trim().toLowerCase();
+          const favOnly = $('#favOnly').checked;
+          let list = recipes.filter(r =>
+            (tab === 'all' || catOf(r.category).id === tab) &&
+            (tab !== 'jewish' || !holidayFilter || r.holiday === holidayFilter) &&
+            (!favOnly || r.favorite) &&
+            (!q || [r.title, r.ingredients, r.steps, r.notes, r.source, r.holiday].join(' ').toLowerCase().includes(q))
+          );
+          const sort = $('#sort').value;
+          list.sort((a, b) =>
+            sort === 'new' ? b.created - a.created :
+            sort === 'fav' ? (b.favorite - a.favorite) || a.title.localeCompare(b.title) :
+            a.title.localeCompare(b.title));
+          return list;
+        }
+
+        function jewishTags(r) {
+          if (r.category !== 'jewish') return '';
+          let t = '';
+          if (r.holiday) t += `<span class="tag j">${esc(r.holiday)}</span>`;
+          if (r.kosher) t += `<span class="tag k-${r.kosher.toLowerCase()}">${esc(r.kosher)}</span>`;
+          if (r.passover) t += `<span class="tag j">Kosher for Passover</span>`;
+          return t;
+        }
+
+        function renderGrid() {
+          const list = filtered();
+          const grid = $('#grid');
+          if (!list.length) {
+            const anyInTab = recipes.some(r => tab === 'all' || catOf(r.category).id === tab);
+            grid.innerHTML = `<div class="empty"><div class="big">${tab === 'jewish' ? '✡' : '🍽️'}</div>
+              <p>${anyInTab ? 'No recipes match your search.' : `No ${tab === 'all' ? '' : esc(catOf(tab).label) + ' '}recipes yet.`}</p>
+              ${anyInTab ? '' : `<button class="btn primary" data-add>+ Add ${tab === 'all' ? 'your first' : 'a ' + esc(catOf(tab).label)} recipe</button>`}</div>`;
+            return;
+          }
+          grid.innerHTML = list.map(r => {
+            const c = catOf(r.category);
+            return `<button class="card" data-id="${r.id}">
+              <div class="img" style="${r.photo ? `background-image:url('${r.photo}')` : ''}">${r.photo ? '' : c.icon}</div>
+              <div class="body">
+                <h3>${r.favorite ? '<span class="fav">★</span> ' : ''}${esc(r.title)}</h3>
+                <div class="meta">
+                  ${tab === 'all' ? `<span>${c.icon} ${esc(c.label)}</span>` : ''}
+                  ${r.time ? `<span>⏱ ${esc(r.time)}</span>` : ''}
+                  ${r.servings ? `<span>🍽 ${esc(r.servings)}</span>` : ''}
+                </div>
+                <div class="tags">${jewishTags(r)}</div>
+              </div></button>`;
+          }).join('');
+        }
+
+        function render() { renderTabs(); renderBanner(); renderGrid(); }
+
+        // ---------- view ----------
+        function openView(id) {
+          const r = recipes.find(x => x.id === id); if (!r) return;
+          viewingId = id;
+          const c = catOf(r.category);
+          $('#vTitle').textContent = r.title;
+          const ing = lines(r.ingredients), steps = lines(r.steps);
+          $('#vBody').innerHTML = `
+            ${r.photo ? `<img class="view-img" src="${r.photo}" alt="">` : ''}
+            <div class="meta">
+              <span>${c.icon} ${esc(c.label)}</span>
+              ${r.time ? `<span>⏱ ${esc(r.time)}</span>` : ''}
+              ${r.servings ? `<span>🍽 Serves ${esc(r.servings)}</span>` : ''}
+              ${r.source ? `<span>👤 From ${esc(r.source)}</span>` : ''}
+            </div>
+            <div class="tags" style="margin-top:8px">${jewishTags(r)}</div>
+            <div class="view-cols">
+              <div><h3>Ingredients</h3>${ing.length ? `<ul class="ing">${ing.map(i => `<li>${esc(i)}</li>`).join('')}</ul><p class="hint">Tap an ingredient to check it off.</p>` : '<p class="hint">None listed.</p>'}</div>
+              <div><h3>Directions</h3>${steps.length ? `<ol>${steps.map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : '<p class="hint">None listed.</p>'}</div>
+            </div>
+            ${r.notes ? `<div class="notes"><strong>Notes</strong><br>${esc(r.notes)}</div>` : ''}`;
+          $('#vFav').textContent = r.favorite ? '★ Favorited' : '☆ Favorite';
+          $('#viewDlg').showModal();
+        }
+
+        // ---------- edit ----------
+        function openEdit(id) {
+          const f = $('#form');
+          f.reset();
+          editingId = id || null;
+          pendingPhoto = undefined;
+          const r = id ? recipes.find(x => x.id === id) : null;
+          $('#eTitle').textContent = r ? 'Edit recipe' : 'Add recipe';
+          const defaultCat = tab === 'all' ? 'jewish' : tab;
+          const data = r || { category: defaultCat };
+          for (const k of ['title','category','source','time','servings','holiday','kosher','ingredients','steps','notes']) {
+            f.elements[k].value = data[k] ?? '';
+          }
+          f.elements.category.value = data.category || defaultCat;
+          f.elements.passover.checked = !!data.passover;
+          f.elements.favorite.checked = !!data.favorite;
+          showPhotoPreview(r?.photo || '');
+          toggleJewishFields();
+          $('#editDlg').showModal();
+          f.elements.title.focus();
+        }
+
+        function showPhotoPreview(src) {
+          $('#photoPreview').innerHTML = src
+            ? `<img src="${src}" alt="" style="max-width:180px;border-radius:10px;display:block;margin-bottom:6px">
+               <button type="button" class="btn danger" id="removePhoto">Remove photo</button>` : '';
+        }
+
+        function toggleJewishFields() {
+          $('#jewishFields').style.display = $('#catSelect').value === 'jewish' ? '' : 'none';
+        }
+
+        // Shrink photos so they fit comfortably in browser storage.
+        function resizeImage(file, max = 1000) {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = () => {
+              const scale = Math.min(1, max / Math.max(img.width, img.height));
+              const cv = document.createElement('canvas');
+              cv.width = Math.round(img.width * scale); cv.height = Math.round(img.height * scale);
+              cv.getContext('2d').drawImage(img, 0, 0, cv.width, cv.height);
+              URL.revokeObjectURL(url);
+              resolve(cv.toDataURL('image/jpeg', 0.78));
+            };
+            img.onerror = reject;
+            img.src = url;
+          });
+        }
+
+        // ---------- events ----------
+        $('#catSelect').innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.icon} ${esc(c.label)}</option>`).join('');
+        $('#holidaySelect').innerHTML = '<option value="">—</option>' + HOLIDAYS.map(h => `<option>${esc(h)}</option>`).join('');
+        $('#catSelect').addEventListener('change', toggleJewishFields);
+
+        $('#tabs').addEventListener('click', e => {
+          const b = e.target.closest('[data-tab]'); if (!b) return;
+          tab = b.dataset.tab; holidayFilter = ''; render();
+        });
+        $('#jewishBanner').addEventListener('click', e => {
+          const b = e.target.closest('[data-holiday]'); if (!b) return;
+          holidayFilter = b.dataset.holiday; renderBanner(); renderGrid();
+        });
+        $('#grid').addEventListener('click', e => {
+          if (e.target.closest('[data-add]')) return openEdit();
+          const card = e.target.closest('.card'); if (card) openView(card.dataset.id);
+        });
+        ['#search', '#sort', '#favOnly'].forEach(s => $(s).addEventListener('input', renderGrid));
+        $('#addBtn').addEventListener('click', () => openEdit());
+
+        document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => b.closest('dialog').close()));
+        document.querySelectorAll('dialog').forEach(d => d.addEventListener('click', e => { if (e.target === d) d.close(); }));
+
+        $('#vBody').addEventListener('click', e => { const li = e.target.closest('.ing li'); if (li) li.classList.toggle('done'); });
+        $('#vEdit').addEventListener('click', () => { $('#viewDlg').close(); openEdit(viewingId); });
+        $('#vPrint').addEventListener('click', () => window.print());
+        $('#vFav').addEventListener('click', () => {
+          const r = recipes.find(x => x.id === viewingId); if (!r) return;
+          r.favorite = !r.favorite; save(); render();
+          $('#vFav').textContent = r.favorite ? '★ Favorited' : '☆ Favorite';
+        });
+        $('#vDelete').addEventListener('click', () => {
+          const r = recipes.find(x => x.id === viewingId); if (!r) return;
+          if (!confirm(`Delete “${r.title}”? This can't be undone.`)) return;
+          recipes = recipes.filter(x => x.id !== viewingId); save();
+          $('#viewDlg').close(); render();
+        });
+
+        $('#form').elements.photo.addEventListener('change', async e => {
+          const file = e.target.files[0]; if (!file) return;
+          try { pendingPhoto = await resizeImage(file); showPhotoPreview(pendingPhoto); }
+          catch { alert('Sorry, that image could not be read.'); }
+        });
+        $('#photoPreview').addEventListener('click', e => {
+          if (e.target.id === 'removePhoto') { pendingPhoto = ''; $('#form').elements.photo.value = ''; showPhotoPreview(''); }
+        });
+
+        $('#form').addEventListener('submit', e => {
+          e.preventDefault();
+          const f = e.target.elements;
+          const existing = editingId ? recipes.find(x => x.id === editingId) : null;
+          const isJewish = f.category.value === 'jewish';
+          const r = {
+            id: existing?.id || crypto.randomUUID(),
+            created: existing?.created || Date.now(),
+            title: f.title.value.trim(),
+            category: f.category.value,
+            source: f.source.value.trim(),
+            time: f.time.value.trim(),
+            servings: f.servings.value.trim(),
+            holiday: isJewish ? f.holiday.value : '',
+            kosher: isJewish ? f.kosher.value : '',
+            passover: isJewish && f.passover.checked,
+            ingredients: f.ingredients.value,
+            steps: f.steps.value,
+            notes: f.notes.value,
+            favorite: f.favorite.checked,
+            photo: pendingPhoto === undefined ? (existing?.photo || '') : pendingPhoto,
+          };
+          if (!r.title) return;
+          const before = recipes;
+          recipes = existing ? recipes.map(x => x.id === r.id ? r : x) : [...recipes, r];
+          if (!save()) { recipes = before; return; }
+          $('#editDlg').close();
+          render();
+        });
+
+        render();
+      })();
+    </script>
+  </body>
 </html>
